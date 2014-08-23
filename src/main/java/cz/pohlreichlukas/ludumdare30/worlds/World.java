@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import cz.pohlreichlukas.ludumdare30.GamePane;
 import cz.pohlreichlukas.ludumdare30.entities.Player;
 import cz.pohlreichlukas.ludumdare30.entities.Entity;
+import cz.pohlreichlukas.ludumdare30.entities.Asteroid;
 
 public class World {
     
@@ -20,9 +21,10 @@ public class World {
         this.entities = new ArrayList<Entity>();
         this.deadEntities = new ArrayList<Entity>();
         this.newEntities = new ArrayList<Entity>();
-        this.player = new Player();
+        this.player = new Player( 100, 400 );
         this.entities.add( this.player );
         this.background = Color.white;
+        this.entities.add( new Asteroid() );
     }
 
     public void render( GamePane pane, Graphics2D g ) {
@@ -34,10 +36,15 @@ public class World {
     }
 
     public void update( GamePane pane, long delta ) {
-        for ( Entity e : entities ) {
+        for ( Entity e : this.entities ) {
             e.update( this, pane, delta );
             if ( e.isDead() ) {
                 this.deadEntities.add( e );
+            }
+            for ( Entity ee : this.entities ) {
+                if ( ee.isCollidingWith( e ) ) {
+                    ee.hit( e );
+                }
             }
         }
 

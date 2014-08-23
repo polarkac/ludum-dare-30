@@ -37,6 +37,7 @@ public class PlayerInputComponent implements InputComponent {
 
     private void createBullet( Player p, World world ) {
         Bullet b = new Bullet( p.getX() + p.getWidth() / 2, p.getY() - 15, false );
+        b.setParent( p );
         world.addEntity( b );
     }
 }

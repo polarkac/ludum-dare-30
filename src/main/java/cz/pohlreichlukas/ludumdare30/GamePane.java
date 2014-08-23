@@ -96,6 +96,7 @@ public class GamePane extends Canvas implements Runnable {
 
     public void changeToMenu() {
         this.activeScreen = this.mainScreen;
+        this.mainScreen.setTimeout( 500 );
     }
 
     public void resetGame() {

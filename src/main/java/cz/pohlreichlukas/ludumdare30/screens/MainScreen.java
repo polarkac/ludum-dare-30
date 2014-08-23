@@ -19,12 +19,14 @@ public class MainScreen implements Screen {
     private Font optionFont;
     private Font authorFont;
     private String authorString;
+    private int timeout;
 
     public MainScreen() {
         this.selectedOption = 1;
         this.optionFont = new Font( Font.SANS_SERIF, Font.PLAIN, MainScreen.FONT_SIZE );
         this.authorFont = new Font( Font.SANS_SERIF, Font.PLAIN, MainScreen.FONT_SIZE / 3 );
         this.authorString = "Lukas Pohlreich 2014 - http://github.com/polarkac/ludum-dare-30";
+        this.timeout = 0;
     }
     
     public void render( GamePane pane, Graphics2D g ) {
@@ -72,7 +74,7 @@ public class MainScreen implements Screen {
         }
 
         InputListener input = pane.getInput();
-        if ( input.isLeftDown() ) {
+        if ( input.isLeftDown() && this.timeout <= 0 ) {
             System.out.println( "LEFT CLICK" );
             switch( this.selectedOption ) {
                 case 0:
@@ -81,6 +83,13 @@ public class MainScreen implements Screen {
                     pane.quitGame(); break;
             }
         }
+        if ( this.timeout > 0 ) {
+            this.timeout -= delta;
+        }
+    }
+
+    public void setTimeout( int timeout ) {
+        this.timeout = timeout;
     }
 
 }

@@ -52,7 +52,7 @@ public class World {
             }
         }
 
-        this.generateAsteroid( delta );
+        this.generateAsteroid( pane, delta );
 
         this.entities.addAll( this.newEntities );
         this.newEntities.clear();
@@ -68,9 +68,9 @@ public class World {
         this.newEntities.add( e );
     }
 
-    public void generateAsteroid( long delta ) {
+    public void generateAsteroid( GamePane pane, long delta ) {
         if ( this.asteroidTimer > 5000 ) {
-            this.addEntity( new Asteroid( World.rnd.nextInt( 400 ), 10 ) ); 
+            this.addEntity( new Asteroid( World.rnd.nextInt( pane.getWidth() ), 10 ) ); 
             this.asteroidTimer = 0;
         }
 

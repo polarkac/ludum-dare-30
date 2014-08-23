@@ -16,13 +16,14 @@ public class AsteroidInputComponent implements InputComponent {
         a.setY( a.getY() + ( a.getSpeed() / 1000f ) * delta );
 
         if ( a.getY() > pane.getHeight() ) {
-            // TODO
-            int n = pane.getWidth() - a.getWidth();
-            if ( n < 0 ) {
-                n = 200;
-            }
-            a.setX( AsteroidInputComponent.rnd.nextInt( n ) );
-            a.setY( 0 );
+            a.setIsDead( true );
+        }
+
+        if ( a.isDead() && a.getLifes() == 0 && e.getWidth() > 50 ) {
+            Asteroid left = new Asteroid( a.getX() - 30, a.getY(), 50, 50 );
+            Asteroid right = new Asteroid( a.getX() + 30, a.getY(), 50, 50 );
+            world.addEntity( left );
+            world.addEntity( right );
         }
     }
 }

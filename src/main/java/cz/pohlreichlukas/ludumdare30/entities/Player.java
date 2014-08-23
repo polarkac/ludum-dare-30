@@ -8,18 +8,25 @@ import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 
 public class Player extends Entity {
 
+    private int lifes;
+
     public Player( float x, float y ) {
-        this( x, y, 50, 50 );
+        this( x, y, 64, 64 );
     }
 
     public Player( float x, float y, int width, int height ) {
         super( x, y, width, height );
         this.renderer = new PlayerRendererComponent();
         this.input = new PlayerInputComponent();
+        this.lifes = 2;
     }
 
     public void hit( Entity e ) {
         if ( e.getParent() != this ) {
+            this.lifes--;
+        }
+
+        if ( this.lifes == 0 ) {
             this.setIsDead( true );
         }
     }

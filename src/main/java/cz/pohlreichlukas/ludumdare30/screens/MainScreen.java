@@ -61,6 +61,7 @@ public class MainScreen implements Screen {
     }
 
     public void update( GamePane pane, long delta ) {
+        pane.showCursor();
         Point mousePosition = pane.getMousePosition();
         if ( mousePosition != null ) {
             if ( mousePosition.getY() > pane.getHeight() / 2 ) {

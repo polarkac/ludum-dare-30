@@ -3,6 +3,7 @@ package cz.pohlreichlukas.ludumdare30.worlds;
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 import cz.pohlreichlukas.ludumdare30.GamePane;
 import cz.pohlreichlukas.ludumdare30.entities.Player;
@@ -11,11 +12,13 @@ import cz.pohlreichlukas.ludumdare30.entities.Asteroid;
 
 public class World {
     
+    private static Random rnd = new Random();
     private Color background;
     private ArrayList<Entity> entities;
     private ArrayList<Entity> deadEntities;
     private ArrayList<Entity> newEntities;
     private Player player;
+    private int asteroidTimer;
 
     public World() {
         this.entities = new ArrayList<Entity>();
@@ -24,7 +27,8 @@ public class World {
         this.player = new Player( 100, 400 );
         this.entities.add( this.player );
         this.background = Color.white;
-        this.entities.add( new Asteroid() );
+        this.entities.add( new Asteroid( 320, 10 ) );
+        this.asteroidTimer = 0;
     }
 
     public void render( GamePane pane, Graphics2D g ) {
@@ -48,6 +52,8 @@ public class World {
             }
         }
 
+        this.generateAsteroid( delta );
+
         this.entities.addAll( this.newEntities );
         this.newEntities.clear();
         this.entities.removeAll( this.deadEntities );
@@ -60,5 +66,14 @@ public class World {
 
     public void addEntity( Entity e ) {
         this.newEntities.add( e );
+    }
+
+    public void generateAsteroid( long delta ) {
+        if ( this.asteroidTimer > 5000 ) {
+            this.addEntity( new Asteroid( World.rnd.nextInt( 400 ), 10 ) ); 
+            this.asteroidTimer = 0;
+        }
+
+        this.asteroidTimer += delta;
     }
 }

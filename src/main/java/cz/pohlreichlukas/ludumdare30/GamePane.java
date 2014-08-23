@@ -5,6 +5,10 @@ import java.lang.Runnable;
 import java.awt.image.BufferStrategy;
 import java.awt.Graphics2D;
 import java.lang.InterruptedException;
+import java.awt.image.BufferedImage;
+import java.awt.Cursor;
+import java.awt.Toolkit;
+import java.awt.Point;
 
 import cz.pohlreichlukas.ludumdare30.screens.GameScreen;
 import cz.pohlreichlukas.ludumdare30.screens.MainScreen;
@@ -18,6 +22,7 @@ public class GamePane extends Canvas implements Runnable {
     private Screen activeScreen;
     private InputListener input;
     private boolean isRunning;
+    private Cursor bCursor;
 
     public GamePane() {
         this.input = new InputListener();
@@ -26,6 +31,11 @@ public class GamePane extends Canvas implements Runnable {
         this.activeScreen = this.mainScreen;
         this.addMouseListener( this.input );
         this.isRunning = true;
+
+        BufferedImage cImg = new BufferedImage( 16, 16, BufferedImage.TYPE_INT_ARGB );
+        this.bCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+            cImg, new Point( 0, 0 ), "blank cursor"        
+        );
     }
 
     public void run() {
@@ -92,8 +102,17 @@ public class GamePane extends Canvas implements Runnable {
         this.changeToMenu();
         this.gameScreen.reset();
     }
+
     public void quitGame() {
         System.exit(0);
+    }
+
+    public void hideCursor() {
+        this.setCursor( this.bCursor );
+    }
+
+    public void showCursor() {
+        this.setCursor( new Cursor( Cursor.DEFAULT_CURSOR ) );
     }
     
 }

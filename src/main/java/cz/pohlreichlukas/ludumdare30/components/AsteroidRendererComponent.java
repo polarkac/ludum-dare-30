@@ -10,6 +10,6 @@ public class AsteroidRendererComponent extends RendererComponent {
     public void render( Entity e, Graphics2D g ) {
         super.render( e, g );
         g.setColor( Color.black );
-        g.fillOval( (int) e.getX(), (int) e.getY(), 100, 100 );
+        g.fillOval( (int) e.getX(), (int) e.getY(), e.getWidth(), e.getHeight() );
     }    
 }

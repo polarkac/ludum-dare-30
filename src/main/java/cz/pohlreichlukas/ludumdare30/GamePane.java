@@ -84,6 +84,14 @@ public class GamePane extends Canvas implements Runnable {
         this.activeScreen = this.gameScreen;
     }
 
+    public void changeToMenu() {
+        this.activeScreen = this.mainScreen;
+    }
+
+    public void resetGame() {
+        this.changeToMenu();
+        this.gameScreen.reset();
+    }
     public void quitGame() {
         System.exit(0);
     }

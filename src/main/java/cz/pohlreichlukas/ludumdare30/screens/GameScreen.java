@@ -20,4 +20,8 @@ public class GameScreen implements Screen {
     public void update( GamePane pane, long delta ) {
        this.world.update( pane, delta ); 
     }    
+
+    public void reset() {
+        this.world = new World();
+    }
 }

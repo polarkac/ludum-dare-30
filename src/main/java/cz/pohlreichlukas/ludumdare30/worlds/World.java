@@ -52,6 +52,10 @@ public class World {
         this.newEntities.clear();
         this.entities.removeAll( this.deadEntities );
         this.deadEntities.clear();
+
+        if ( this.player.isDead() ) {
+            pane.resetGame();
+        }
     }
 
     public void addEntity( Entity e ) {

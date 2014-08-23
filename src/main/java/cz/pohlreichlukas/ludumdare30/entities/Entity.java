@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import cz.pohlreichlukas.ludumdare30.GamePane;
 import cz.pohlreichlukas.ludumdare30.components.RendererComponent;
 import cz.pohlreichlukas.ludumdare30.components.InputComponent;
+import cz.pohlreichlukas.ludumdare30.worlds.World;
 
 abstract public class Entity {
     
@@ -29,8 +30,8 @@ abstract public class Entity {
         this.renderer.render( this, g );
     }
 
-    public void update( GamePane pane, long delta ) {
-        this.input.update( this, pane, delta );
+    public void update( World world, GamePane pane, long delta ) {
+        this.input.update( this, world, pane, delta );
     }
 
     public float getX() {
@@ -64,5 +65,4 @@ abstract public class Entity {
     public void setIsDead( boolean isDead ) {
         this.isDead = isDead;
     }
-
 }

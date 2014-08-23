@@ -58,7 +58,7 @@ public class GamePane extends Canvas implements Runnable {
         Graphics2D g = (Graphics2D) buffer.getDrawGraphics();
         g.setColor( this.getBackground() );
         g.fillRect( 0, 0, this.getWidth(), this.getHeight() );
-        this.gameScreen.render( g );
+        this.gameScreen.render( this, g );
 
         g.dispose();
         buffer.show();

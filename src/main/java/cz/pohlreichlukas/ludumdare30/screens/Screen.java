@@ -6,6 +6,6 @@ import cz.pohlreichlukas.ludumdare30.GamePane;
 
 public interface Screen {
     
-    public void render( Graphics2D g );
+    public void render( GamePane pane, Graphics2D g );
     public void update( GamePane pane, long delta );
 }

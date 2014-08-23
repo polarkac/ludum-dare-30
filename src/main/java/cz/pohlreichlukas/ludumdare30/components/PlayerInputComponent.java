@@ -8,6 +8,7 @@ import cz.pohlreichlukas.ludumdare30.entities.Entity;
 import cz.pohlreichlukas.ludumdare30.entities.Player;
 import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 import cz.pohlreichlukas.ludumdare30.input.InputListener;
+import cz.pohlreichlukas.ludumdare30.worlds.World;
 
 public class PlayerInputComponent implements InputComponent {
     
@@ -17,7 +18,7 @@ public class PlayerInputComponent implements InputComponent {
         this.bulletTimer = 0;
     }
 
-    public void update( Entity e, GamePane pane, long delta ) {
+    public void update( Entity e, World world, GamePane pane, long delta ) {
         Player p = (Player) e;
         Point mousePosition = pane.getMousePosition();
         if ( mousePosition !=  null ) {
@@ -25,21 +26,17 @@ public class PlayerInputComponent implements InputComponent {
             p.setY( (float) mousePosition.getY() - p.getHeight() / 2 );
         }
 
-        ArrayList<Bullet> deadBullets = new ArrayList<Bullet>();
-        for ( Bullet b : p.getBullets() ) {
-            b.update( pane, delta );
-            if ( b.isDead() ) {
-                deadBullets.add( b );
-            }
-        }
-        p.removeBullets( deadBullets );
-
         InputListener input = pane.getInput();
         if ( input.isLeftDown() && this.bulletTimer <= 0 ) {
-            p.createBullet();
+            this.createBullet( p, world );
             this.bulletTimer = 200;
         }
 
         if ( this.bulletTimer > 0 ) this.bulletTimer -= delta;
     }    
+
+    private void createBullet( Player p, World world ) {
+        Bullet b = new Bullet( p.getX() + p.getWidth() / 2, p.getY() - 15, false );
+        world.addEntity( b );
+    }
 }

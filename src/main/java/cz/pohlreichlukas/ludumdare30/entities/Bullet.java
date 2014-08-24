@@ -1,5 +1,7 @@
 package cz.pohlreichlukas.ludumdare30.entities;
 
+import cz.pohlreichlukas.ludumdare30.GamePane;
+import cz.pohlreichlukas.ludumdare30.worlds.World;
 import cz.pohlreichlukas.ludumdare30.components.BulletRendererComponent;
 import cz.pohlreichlukas.ludumdare30.components.BulletInputComponent;
 
@@ -42,5 +44,10 @@ public class Bullet extends Entity {
     }
 
     public void hitBy( Entity e ) {
+        this.setIsDead( true );
+    }
+
+    public void setIsDead( boolean dead ) {
+        super.setIsDead( dead );
     }
 }

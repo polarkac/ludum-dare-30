@@ -75,7 +75,6 @@ public class MainScreen implements Screen {
 
         InputListener input = pane.getInput();
         if ( input.isLeftDown() && this.timeout <= 0 ) {
-            System.out.println( "LEFT CLICK" );
             switch( this.selectedOption ) {
                 case 0:
                     pane.changeToGame(); break;

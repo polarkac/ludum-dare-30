@@ -37,7 +37,7 @@ public class Asteroid extends Entity {
 
     public void hitBy( Bullet a ) {
         this.lifes--;
-        a.setIsDead( true );
+        a.hitBy( this );
 
         if ( this.lifes == 0 ) {
             this.setIsDead( true );

@@ -7,7 +7,7 @@ import cz.pohlreichlukas.ludumdare30.entities.Entity;
 import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 
 public class BulletRendererComponent extends RendererComponent {
-    
+
     public void render( Entity e, Graphics2D g ) {
         super.render( e, g );
         Bullet b = (Bullet) e;

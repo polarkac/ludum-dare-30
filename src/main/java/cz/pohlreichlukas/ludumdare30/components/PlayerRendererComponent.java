@@ -1,6 +1,5 @@
 package cz.pohlreichlukas.ludumdare30.components;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.awt.image.BufferedImage;

@@ -3,9 +3,9 @@ package cz.pohlreichlukas.ludumdare30.entities;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import cz.pohlreichlukas.ludumdare30.GamePane;
 import cz.pohlreichlukas.ludumdare30.components.RendererComponent;
 import cz.pohlreichlukas.ludumdare30.components.InputComponent;
+import cz.pohlreichlukas.ludumdare30.GamePane;
 import cz.pohlreichlukas.ludumdare30.worlds.World;
 
 abstract public class Entity {
@@ -43,6 +43,7 @@ abstract public class Entity {
     }
 
     public boolean isCollidingWith( Entity e ) {
+        if ( this.isDead ) return false;
         if ( e == this ) {
             return false;
         }

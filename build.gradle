@@ -2,3 +2,9 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = 'cz.pohlreichlukas.ludumdare30.Game'
+
+jar {
+    manifest {
+        attributes ( 'Main-Class': 'cz.pohlreichlukas.ludumdare30.Game' )    
+    }    
+}

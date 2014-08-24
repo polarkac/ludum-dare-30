@@ -19,6 +19,7 @@ public class MainScreen implements Screen {
     private Font optionFont;
     private Font authorFont;
     private String authorString;
+    private String name;
     private int timeout;
 
     public MainScreen() {
@@ -26,6 +27,7 @@ public class MainScreen implements Screen {
         this.optionFont = new Font( Font.SANS_SERIF, Font.PLAIN, MainScreen.FONT_SIZE );
         this.authorFont = new Font( Font.SANS_SERIF, Font.PLAIN, MainScreen.FONT_SIZE / 3 );
         this.authorString = "Lukas Pohlreich 2014 - http://github.com/polarkac/ludum-dare-30";
+        this.name = "Drunken Space Fleet";
         this.timeout = 0;
     }
     
@@ -58,6 +60,15 @@ public class MainScreen implements Screen {
                 this.authorString,
                 pane.getWidth() / 2 - authorStringWidth / 2,
                 pane.getHeight() - MainScreen.FONT_SIZE / 3
+        );
+
+        g.setFont( this.optionFont );
+        g.setColor( new Color( 128, 128, 128 ) );
+        int nameWidth = g.getFontMetrics( this.optionFont ).stringWidth( this.name );
+        g.drawString( 
+                this.name,
+                pane.getWidth() / 2 - nameWidth / 2,
+                100
         );
 
     }

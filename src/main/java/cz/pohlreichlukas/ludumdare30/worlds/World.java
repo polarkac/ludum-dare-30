@@ -14,6 +14,7 @@ import cz.pohlreichlukas.ludumdare30.entities.Entity;
 import cz.pohlreichlukas.ludumdare30.entities.Asteroid;
 import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 import cz.pohlreichlukas.ludumdare30.entities.EnemyShip;
+import cz.pohlreichlukas.ludumdare30.entities.Portal;
 import cz.pohlreichlukas.ludumdare30.particles.Particle;
 
 public class World {
@@ -24,12 +25,13 @@ public class World {
     private ArrayList<EnemyShip> enemyShips;
     private ArrayList<Particle> particles;
     private ArrayList<Entity> renderedEntities;
+    private Portal portal;
     private Player player;
     private int asteroidTimer;
     private int enemyShipTimer;
     private BufferedImage background;
 
-    public World() {
+    public World( int numberBack ) {
         this.bullets = new ArrayList<Bullet>();
         this.asteroids = new ArrayList<Asteroid>();
         this.enemyShips = new ArrayList<EnemyShip>();
@@ -41,7 +43,7 @@ public class World {
         this.asteroidTimer = 0;
         this.enemyShipTimer = 0;
 
-        this.generateBackground();
+        this.generateBackground( numberBack );
     }
 
     public void render( GamePane pane, Graphics2D g ) {
@@ -115,6 +117,11 @@ public class World {
 
         this.player.update( this, pane, delta );
 
+        if ( this.portal != null && this.player.isCollidingWith( this.portal ) ) {
+            this.portal.hitBy( this, this.player );
+            pane.newGame();
+        }
+
         if ( this.player.isDead() ) {
             pane.resetGame();
         }
@@ -136,6 +143,12 @@ public class World {
     public void addEntity( EnemyShip e ) {
         this.enemyShips.add( e );
         this.renderedEntities.add( e );
+    }
+
+    public void addEntity( Portal p ) {
+        this.renderedEntities.remove( this.portal );
+        this.renderedEntities.add( p );
+        this.portal = p;
     }
 
     public void addParticle( Particle p ) {
@@ -166,10 +179,9 @@ public class World {
         return this.player;	
     }
 
-    public void generateBackground() {
-        int random = World.rnd.nextInt( 3 ) + 1;
+    public void generateBackground( int number ) {
         try {
-            this.background = ImageIO.read( World.class.getResourceAsStream( "/back" + random + ".jpg" ) );
+            this.background = ImageIO.read( World.class.getResourceAsStream( "/back" + number + ".jpg" ) );
         } catch ( IOException e ) {
             this.background = null;
             e.printStackTrace();

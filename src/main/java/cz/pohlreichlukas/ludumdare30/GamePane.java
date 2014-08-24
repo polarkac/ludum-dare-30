@@ -105,6 +105,10 @@ public class GamePane extends Canvas implements Runnable {
         this.gameScreen.reset();
     }
 
+    public void newGame() {
+        this.gameScreen.reset( true );
+    }
+
     public void quitGame() {
         System.exit(0);
     }

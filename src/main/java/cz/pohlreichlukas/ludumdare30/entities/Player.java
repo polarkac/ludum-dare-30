@@ -20,7 +20,7 @@ public class Player extends Entity {
         super( x, y, width, height );
         this.renderer = new PlayerRendererComponent();
         this.input = new PlayerInputComponent();
-        this.lifes = 2;
+        this.lifes = 5;
         this.getBoundingBox().setSize( 50, 50 );
         this.getBoundingBox().setLocation( (int) x + 12, (int) y + 12 );
     }
@@ -30,13 +30,22 @@ public class Player extends Entity {
         this.getBoundingBox().setLocation( (int) this.getX() + 6, (int) this.getY() + 6 );
     } 
 
-    public void hitBy( World world, Entity e ) {
-        if ( e.getParent() != this ) {
+    public void hitBy( World world, Bullet e ) {
+        if ( e.getParent() != this && !e.isDead() ) {
             this.lifes--;
         }
 
+        e.hitBy( world, this );
         if ( this.lifes == 0 ) {
             this.setIsDead( true );
         }
+    }
+
+    public void hitBy( World world, Entity e ) {
+        this.setIsDead( true );
+    }
+
+    public int getLifes() {
+        return this.lifes;
     }
 }

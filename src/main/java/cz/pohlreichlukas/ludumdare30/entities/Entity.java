@@ -49,7 +49,7 @@ abstract public class Entity {
         return this.boundingBox.intersects( e.boundingBox );
     }
 
-    abstract public void hit( Entity e );
+    abstract public void hitBy( Entity e );
 
     public float getX() {
         return this.x;	

@@ -41,7 +41,6 @@ public class Bullet extends Entity {
         this.speed = speed;
     }
 
-    public void hit( Entity e ) {
-        this.setIsDead( true );
+    public void hitBy( Entity e ) {
     }
 }

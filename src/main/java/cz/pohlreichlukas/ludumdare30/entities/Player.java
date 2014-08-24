@@ -21,7 +21,7 @@ public class Player extends Entity {
         this.lifes = 2;
     }
 
-    public void hit( Entity e ) {
+    public void hitBy( Entity e ) {
         if ( e.getParent() != this ) {
             this.lifes--;
         }

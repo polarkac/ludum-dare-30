@@ -8,10 +8,16 @@ import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 
 public class BulletRendererComponent extends RendererComponent {
 
+    private Color color;
+
+    public BulletRendererComponent( Color c ) {
+        this.color = c;
+    }
+
     public void render( Entity e, Graphics2D g ) {
         super.render( e, g );
         Bullet b = (Bullet) e;
-        g.setColor( Color.black );
+        g.setColor( this.color );
         g.fillRect( (int) b.getX(), (int) b.getY(), 2, 10 );
     }    
 }

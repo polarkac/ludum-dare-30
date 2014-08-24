@@ -50,7 +50,7 @@ abstract public class Entity {
         return this.boundingBox.intersects( e.boundingBox );
     }
 
-    abstract public void hitBy( Entity e );
+    abstract public void hitBy( World world, Entity e );
 
     public float getX() {
         return this.x;	

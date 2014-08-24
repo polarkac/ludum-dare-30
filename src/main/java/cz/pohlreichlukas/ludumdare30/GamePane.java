@@ -31,6 +31,7 @@ public class GamePane extends Canvas implements Runnable {
         this.activeScreen = this.mainScreen;
         this.addMouseListener( this.input );
         this.isRunning = true;
+        this.setSize( 800, 600 );
 
         BufferedImage cImg = new BufferedImage( 16, 16, BufferedImage.TYPE_INT_ARGB );
         this.bCursor = Toolkit.getDefaultToolkit().createCustomCursor(

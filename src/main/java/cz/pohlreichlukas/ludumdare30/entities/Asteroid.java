@@ -5,6 +5,7 @@ import java.lang.Math;
 import cz.pohlreichlukas.ludumdare30.components.AsteroidRendererComponent;
 import cz.pohlreichlukas.ludumdare30.components.AsteroidInputComponent;
 import cz.pohlreichlukas.ludumdare30.entities.Bullet;
+import cz.pohlreichlukas.ludumdare30.worlds.World;
 
 public class Asteroid extends Entity {
 
@@ -15,8 +16,8 @@ public class Asteroid extends Entity {
         super( x, y, width, height );
         this.renderer = new AsteroidRendererComponent();
         this.input = new AsteroidInputComponent();
-        this.speed = 250;
-        this.lifes = Math.round( width / 20 );
+        this.speed = 80;
+        this.lifes = Math.round( width / 5 );
     }
 
     public Asteroid( float x, float y ) {
@@ -31,13 +32,13 @@ public class Asteroid extends Entity {
         this.speed = speed;
     }
 
-    public void hitBy( Entity e ) {
+    public void hitBy( World world, Entity e ) {
         
     }
 
-    public void hitBy( Bullet a ) {
+    public void hitBy( World world, Bullet a ) {
         this.lifes--;
-        a.hitBy( this );
+        a.hitBy( world, this );
 
         if ( this.lifes == 0 ) {
             this.setIsDead( true );

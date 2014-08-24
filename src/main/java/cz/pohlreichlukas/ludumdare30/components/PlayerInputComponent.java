@@ -2,6 +2,7 @@ package cz.pohlreichlukas.ludumdare30.components;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.awt.Color;
 
 import cz.pohlreichlukas.ludumdare30.GamePane;
 import cz.pohlreichlukas.ludumdare30.entities.Entity;
@@ -36,7 +37,7 @@ public class PlayerInputComponent implements InputComponent {
     }    
 
     private void createBullet( Player p, World world ) {
-        Bullet b = new Bullet( p.getX() + p.getWidth() / 2, p.getY() - 15, false );
+        Bullet b = new Bullet( p.getX() + p.getWidth() / 2, p.getY() - 15, false, Color.blue );
         b.setParent( p );
         world.addEntity( b );
     }

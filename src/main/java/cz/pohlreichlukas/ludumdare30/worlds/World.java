@@ -85,8 +85,6 @@ public class World {
         for ( Particle p : this.particles ) {
             p.render( g );
         }
-
-        this.renderQuadTree( this.bulletTree, g );
     }
 
     private void renderQuadTree( QuadTree t, Graphics2D g ) {

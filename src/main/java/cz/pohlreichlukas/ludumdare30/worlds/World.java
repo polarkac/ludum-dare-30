@@ -65,6 +65,9 @@ public class World {
             g.drawImage( this.background, 0, 0, null );
         }
 
+        if ( this.portal != null ) {
+            this.portal.render( g );
+        }
         this.player.render( g );
         
         for ( Asteroid a : this.asteroids ) {
@@ -77,6 +80,10 @@ public class World {
 
         for ( Bullet b : this.bullets ) {
             b.render( g );
+        }
+
+        for ( Particle p : this.particles ) {
+            p.render( g );
         }
 
         this.renderQuadTree( this.bulletTree, g );
@@ -102,6 +109,13 @@ public class World {
 
         this.player.update( this, pane, delta );
 
+        for ( Particle p : new ArrayList<Particle>( this.particles ) ) {
+            p.update( this, pane, delta );
+            if ( p.isDead() ) {
+                this.particles.remove( p );
+            }
+        }
+
         this.asteroidTree.clear();
         for ( Asteroid a : new ArrayList<Asteroid>( this.asteroids ) ) {
             a.update( this, pane, delta );
@@ -110,6 +124,10 @@ public class World {
             } else {
                 this.asteroidTree.insert( a );
             }
+        }
+
+        if ( this.portal != null && this.player.isCollidingWith( this.portal ) ) {
+            pane.newGame();
         }
 
         this.bulletTree.clear();

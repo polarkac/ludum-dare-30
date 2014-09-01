@@ -48,7 +48,9 @@ public class Bullet extends Entity {
     }
 
     public void hitBy( World world, Entity e ) {
-        //world.addParticle( new Particle( this.getX(), this.getY(), Particle.asteroidHit ) );
-        //this.setIsDead( true );
+        if ( e != this.parent ) {
+            world.addParticle( new Particle( this.getX(), this.getY(), Particle.asteroidHit ) );
+            this.setIsDead( true );
+        }
     }
 }

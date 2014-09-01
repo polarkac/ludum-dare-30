@@ -43,7 +43,9 @@ public class QuadTree<T extends Entity> {
         if ( this.entities.size() < QuadTree.MAX_NODES && this.northWest == null ) {
             this.entities.add( entity );
         } else {
-            this.subdivide();
+            if ( this.northWest == null ) {
+                this.subdivide();
+            }
             this.northWest.insert( entity );
             this.northEast.insert( entity );
             this.southWest.insert( entity );
@@ -64,6 +66,14 @@ public class QuadTree<T extends Entity> {
         this.northEast = new QuadTree<T>( northEast );
         this.southWest = new QuadTree<T>( southWest );
         this.southEast = new QuadTree<T>( southEast );
+
+        for ( T entity : this.entities ) {
+            this.northWest.insert( entity );
+            this.northEast.insert( entity );
+            this.southWest.insert( entity );
+            this.southEast.insert( entity );
+        }
+        this.entities.clear();
     }
 
     public ArrayList<T> getEntities( Rectangle retrieveRegion ) {

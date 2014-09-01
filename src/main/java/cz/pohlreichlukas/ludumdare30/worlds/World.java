@@ -78,12 +78,6 @@ public class World {
     }
 
     public void update( GamePane pane, long delta ) {
-        ArrayList<Asteroid> asteroids = this.asteroids.getEntities( new Rectangle( 0, 0, 800, 600 ) );
-        this.asteroids.clear();
-        for ( Asteroid a : asteroids ) {
-            this.asteroids.insert( a );
-        }
-            
         this.player.update( this, pane, delta );
 
         if ( this.player.isDead() ) {
@@ -120,7 +114,7 @@ public class World {
     }
 
     private void generateAsteroid( GamePane pane, long delta ) {
-        if ( this.asteroidTimer > 3000 ) {
+        if ( this.asteroidTimer > 200 && this.asteroids.getEntities( new Rectangle( 0, 0, 800, 600 ) ).size() < 100 ) {
             this.addEntity( new Asteroid( World.rnd.nextInt( pane.getWidth() - 100 ), World.rnd.nextInt( pane.getHeight() - 100 ), 100, 100 ) ); 
             this.asteroidTimer = 0;
         }

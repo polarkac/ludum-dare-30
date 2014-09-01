@@ -57,70 +57,10 @@ public class World {
         for ( Entity e : this.renderedEntities ) {
             e.render( g );
         }
-        for ( Particle p : this.particles ) {
-            p.render( g );
-        }
     }
 
     public void update( GamePane pane, long delta ) {
-        ArrayList<Asteroid> copyOfAsteroids = new ArrayList<Asteroid>( this.asteroids );
-        ArrayList<EnemyShip> copyOfEnemyShips = new ArrayList<EnemyShip>( this.enemyShips );
-
-        for ( Bullet bullet : new ArrayList<Bullet>( this.bullets ) ) {
-            if ( bullet.isDead() ) {
-                this.bullets.remove( bullet );
-                this.renderedEntities.remove( bullet );
-            } 
-            bullet.update( this, pane, delta );
-            for ( Asteroid asteroid : copyOfAsteroids ) {
-                if ( bullet.isCollidingWith( asteroid ) ) {
-                    asteroid.hitBy( this, bullet );
-                }
-            }
-            for ( EnemyShip ship : copyOfEnemyShips ) {
-                if ( bullet.isCollidingWith( ship ) ) {
-                    ship.hitBy( this, bullet );
-                }
-            }
-            if ( player.isCollidingWith( bullet ) ) {
-                player.hitBy( this, bullet );
-            }
-        }    
-
-        for ( EnemyShip ship : copyOfEnemyShips ) {
-            if ( ship.isDead() ) {
-                this.enemyShips.remove( ship );
-                this.renderedEntities.remove( ship );
-            } 
-            ship.update( this, pane, delta );
-            if ( this.player.isCollidingWith( ship ) ) {
-                this.player.hitBy( this, ship );
-            }
-        }
-        for ( Asteroid asteroid : copyOfAsteroids ) {
-            if ( asteroid.isDead() ) {
-                this.asteroids.remove( asteroid );
-                this.renderedEntities.remove( asteroid );
-            } 
-            asteroid.update( this, pane, delta );
-            if ( this.player.isCollidingWith( asteroid ) ) {
-                this.player.hitBy( this, asteroid );
-            }
-        }
-
-        for ( Particle particle : new ArrayList<Particle>( this.particles ) ) {
-            if ( particle.isDead() ) {
-                this.particles.remove( particle );
-            }
-            particle.update( this, pane, delta );
-        }
-
         this.player.update( this, pane, delta );
-
-        if ( this.portal != null && this.player.isCollidingWith( this.portal ) ) {
-            this.portal.hitBy( this, this.player );
-            pane.newGame();
-        }
 
         if ( this.player.isDead() ) {
             pane.resetGame();

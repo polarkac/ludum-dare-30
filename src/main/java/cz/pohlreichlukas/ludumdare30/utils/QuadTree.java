@@ -7,7 +7,7 @@ import cz.pohlreichlukas.ludumdare30.entities.Entity;
 
 public class QuadTree<T extends Entity> {
     
-    private final static int MAX_NODES = 4;
+    private final static int MAX_NODES = 2;
 
     private Rectangle region;
     private ArrayList<T> entities;
@@ -21,10 +21,15 @@ public class QuadTree<T extends Entity> {
     private QuadTree<T> southWest;
     private QuadTree<T> southEast;
 
+
     public QuadTree( Rectangle region ) {
         this.region = region;
         this.entities = new ArrayList<T>( QuadTree.MAX_NODES ); 
         this.northWest = this.northEast = this.southWest = this.southEast = null;
+    }
+
+    public QuadTree( int x, int y, int width, int height ) {
+        this( new Rectangle( x, y, width, height ) );
     }
 
     public void insert( T entity ) {
@@ -35,12 +40,10 @@ public class QuadTree<T extends Entity> {
             return;
         }
 
-        if ( this.entities.size() < QuadTree.MAX_NODES ) {
+        if ( this.entities.size() < QuadTree.MAX_NODES && this.northWest == null ) {
             this.entities.add( entity );
         } else {
-            if ( this.northWest == null ) {
-                this.subdivide();
-            }
+            this.subdivide();
             this.northWest.insert( entity );
             this.northEast.insert( entity );
             this.southWest.insert( entity );
@@ -61,14 +64,6 @@ public class QuadTree<T extends Entity> {
         this.northEast = new QuadTree<T>( northEast );
         this.southWest = new QuadTree<T>( southWest );
         this.southEast = new QuadTree<T>( southEast );
-
-        for ( T entity : this.entities ) {
-            this.northWest.insert( entity );
-            this.northEast.insert( entity );
-            this.southWest.insert( entity );
-            this.southEast.insert( entity );
-        }
-        this.entities.clear();
     }
 
     public ArrayList<T> getEntities( Rectangle retrieveRegion ) {
@@ -84,11 +79,46 @@ public class QuadTree<T extends Entity> {
             }
         }
 
-        retrievedEntities.addAll( this.northWest.getEntities( retrieveRegion ) );
-        retrievedEntities.addAll( this.northEast.getEntities( retrieveRegion ) );
-        retrievedEntities.addAll( this.southWest.getEntities( retrieveRegion ) );
-        retrievedEntities.addAll( this.southEast.getEntities( retrieveRegion ) );
+        if ( this.northWest != null ) {
+            retrievedEntities.addAll( this.northWest.getEntities( retrieveRegion ) );
+            retrievedEntities.addAll( this.northEast.getEntities( retrieveRegion ) );
+            retrievedEntities.addAll( this.southWest.getEntities( retrieveRegion ) );
+            retrievedEntities.addAll( this.southEast.getEntities( retrieveRegion ) );
+        }
 
         return retrievedEntities;
+    }
+
+    public void clear() {
+        this.entities.clear();
+
+        if ( this.northWest != null ) {
+            this.northWest.clear();
+            this.northEast.clear();
+            this.southWest.clear();
+            this.southEast.clear();
+        }
+
+        this.northWest = this.northEast = this.southWest = this.southEast = null;
+    }
+
+    public Rectangle getRegion() {
+        return this.region;
+    }
+
+    public QuadTree getNorthWest() {
+        return this.northWest;
+    }
+
+    public QuadTree getNorthEast() {
+        return this.northEast;
+    }
+
+    public QuadTree getSouthWest() {
+        return this.southWest;
+    }
+
+    public QuadTree getSouthEast() {
+        return this.southEast;
     }
 }

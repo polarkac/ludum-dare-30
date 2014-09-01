@@ -2,6 +2,7 @@ package cz.pohlreichlukas.ludumdare30.worlds;
 
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
 import java.io.IOException;
@@ -16,12 +17,13 @@ import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 import cz.pohlreichlukas.ludumdare30.entities.EnemyShip;
 import cz.pohlreichlukas.ludumdare30.entities.Portal;
 import cz.pohlreichlukas.ludumdare30.particles.Particle;
+import cz.pohlreichlukas.ludumdare30.utils.QuadTree;
 
 public class World {
     
     private static Random rnd = new Random();
     private ArrayList<Bullet> bullets;
-    private ArrayList<Asteroid> asteroids;
+    private QuadTree<Asteroid> asteroids;
     private ArrayList<EnemyShip> enemyShips;
     private ArrayList<Particle> particles;
     private ArrayList<Entity> renderedEntities;
@@ -33,13 +35,11 @@ public class World {
 
     public World( int numberBack ) {
         this.bullets = new ArrayList<Bullet>();
-        this.asteroids = new ArrayList<Asteroid>();
         this.enemyShips = new ArrayList<EnemyShip>();
         this.particles = new ArrayList<Particle>();
+        this.asteroids = new QuadTree<Asteroid>( 0, 0, 800, 600 );
         this.renderedEntities = new ArrayList<Entity>();
         this.player = new Player( 100, 400 );
-        this.renderedEntities.add( this.player );
-        this.addEntity( new Asteroid( 320, 10 ) );
         this.asteroidTimer = 0;
         this.enemyShipTimer = 0;
 
@@ -53,13 +53,37 @@ public class World {
         } else {
             g.drawImage( this.background, 0, 0, null );
         }
+        
+        this.renderedEntities.clear();
+        this.renderedEntities.add( this.player );
+        this.renderedEntities.addAll( this.asteroids.getEntities( new Rectangle( 0, 0, 800, 600 ) ) );
+        for ( Entity en : this.renderedEntities ) {
+            en.render( g );
+        }
 
-        for ( Entity e : this.renderedEntities ) {
-            e.render( g );
+        this.renderQuadTree( this.asteroids, g );
+    }
+
+    private void renderQuadTree( QuadTree t, Graphics2D g ) {
+        Rectangle r = t.getRegion();
+        g.setColor( Color.green );
+        g.drawRect( (int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight() );
+
+        if ( t.getNorthWest() != null ) {
+            this.renderQuadTree( t.getNorthWest(), g );
+            this.renderQuadTree( t.getNorthEast(), g );
+            this.renderQuadTree( t.getSouthWest(), g );
+            this.renderQuadTree( t.getSouthEast(), g );
         }
     }
 
     public void update( GamePane pane, long delta ) {
+        ArrayList<Asteroid> asteroids = this.asteroids.getEntities( new Rectangle( 0, 0, 800, 600 ) );
+        this.asteroids.clear();
+        for ( Asteroid a : asteroids ) {
+            this.asteroids.insert( a );
+        }
+            
         this.player.update( this, pane, delta );
 
         if ( this.player.isDead() ) {
@@ -67,7 +91,7 @@ public class World {
         }
 
         this.generateAsteroid( pane, delta );
-        this.generateEnemyShip( pane, delta );
+        //this.generateEnemyShip( pane, delta );
     }
 
     public void addEntity( Bullet e ) {
@@ -76,8 +100,8 @@ public class World {
     }
 
     public void addEntity( Asteroid a ) {
-        this.asteroids.add( a );
-        this.renderedEntities.add( a );
+        System.out.println( "ASTEROID" );
+        this.asteroids.insert( a );
     }
 
     public void addEntity( EnemyShip e ) {
@@ -97,7 +121,7 @@ public class World {
 
     private void generateAsteroid( GamePane pane, long delta ) {
         if ( this.asteroidTimer > 3000 ) {
-            this.addEntity( new Asteroid( World.rnd.nextInt( pane.getWidth() ), -100, 100, 100 ) ); 
+            this.addEntity( new Asteroid( World.rnd.nextInt( pane.getWidth() - 100 ), World.rnd.nextInt( pane.getHeight() - 100 ), 100, 100 ) ); 
             this.asteroidTimer = 0;
         }
 

@@ -5,9 +5,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
-import java.io.IOException;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 
 import cz.pohlreichlukas.ludumdare30.GamePane;
 import cz.pohlreichlukas.ludumdare30.entities.Player;
@@ -18,15 +16,22 @@ import cz.pohlreichlukas.ludumdare30.entities.EnemyShip;
 import cz.pohlreichlukas.ludumdare30.entities.Portal;
 import cz.pohlreichlukas.ludumdare30.particles.Particle;
 import cz.pohlreichlukas.ludumdare30.utils.QuadTree;
+import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 
 public class World {
     
     private static Random rnd = new Random();
+
     private ArrayList<Bullet> bullets;
-    private QuadTree<Asteroid> asteroids;
+    private QuadTree<Bullet> bulletTree;
+
+    private ArrayList<Asteroid> asteroids;
+    private QuadTree<Asteroid> asteroidTree;
+
     private ArrayList<EnemyShip> enemyShips;
+    private QuadTree<EnemyShip> enemyShipTree;
+
     private ArrayList<Particle> particles;
-    private ArrayList<Entity> renderedEntities;
     private Portal portal;
     private Player player;
     private int asteroidTimer;
@@ -34,11 +39,17 @@ public class World {
     private BufferedImage background;
 
     public World( int numberBack ) {
-        this.bullets = new ArrayList<Bullet>();
-        this.enemyShips = new ArrayList<EnemyShip>();
         this.particles = new ArrayList<Particle>();
-        this.asteroids = new QuadTree<Asteroid>( 0, 0, 800, 600 );
-        this.renderedEntities = new ArrayList<Entity>();
+
+        this.bullets = new ArrayList<Bullet>();
+        this.bulletTree = new QuadTree<Bullet>( 0, 0, 800, 600 );
+
+        this.enemyShips = new ArrayList<EnemyShip>();
+        this.enemyShipTree = new QuadTree<EnemyShip>( 0, 0, 800, 600 );
+
+        this.asteroids = new ArrayList<Asteroid>();
+        this.asteroidTree = new QuadTree<Asteroid>( 0, 0, 800, 600 );
+
         this.player = new Player( 100, 400 );
         this.asteroidTimer = 0;
         this.enemyShipTimer = 0;
@@ -53,15 +64,22 @@ public class World {
         } else {
             g.drawImage( this.background, 0, 0, null );
         }
+
+        this.player.render( g );
         
-        this.renderedEntities.clear();
-        this.renderedEntities.add( this.player );
-        this.renderedEntities.addAll( this.asteroids.getEntities( new Rectangle( 0, 0, 800, 600 ) ) );
-        for ( Entity en : this.renderedEntities ) {
-            en.render( g );
+        for ( Asteroid a : this.asteroids ) {
+            a.render( g );
         }
 
-        this.renderQuadTree( this.asteroids, g );
+        for ( EnemyShip e : this.enemyShips ) {
+            e.render( g );
+        }
+
+        for ( Bullet b : this.bullets ) {
+            b.render( g );
+        }
+
+        this.renderQuadTree( this.bulletTree, g );
     }
 
     private void renderQuadTree( QuadTree t, Graphics2D g ) {
@@ -84,44 +102,89 @@ public class World {
 
         this.player.update( this, pane, delta );
 
-        ArrayList<Asteroid> asteroids = this.asteroids.getEntities( new Rectangle( 0, 0, 800, 600 ) );
-        this.asteroids.clear();
-        for ( Asteroid a : asteroids ) {
+        this.asteroidTree.clear();
+        for ( Asteroid a : new ArrayList<Asteroid>( this.asteroids ) ) {
             a.update( this, pane, delta );
-            this.asteroids.insert( a );
+            if ( a.isDead() ) {
+                this.asteroids.remove( a );
+            } else {
+                this.asteroidTree.insert( a );
+            }
         }
 
-        Rectangle r = new Rectangle( this.player.getBoundingBox() );
-        r.grow( 20, 20 );
-        asteroids = this.asteroids.getEntities( r );
-        for ( Asteroid a : asteroids ) {
+        this.bulletTree.clear();
+        Rectangle bulletBox = new Rectangle( 0, 0, 0, 0 );
+        for ( Bullet b : new ArrayList<Bullet>( this.bullets ) ) {
+            b.update( this, pane, delta );
+            if ( b.isDead() ) {
+                this.bullets.remove( b );
+            } else {
+                this.bulletTree.insert( b );
+            }
+            bulletBox.setBounds( b.getBoundingBox() );
+            bulletBox.grow( 5, 5 );
+            for ( Asteroid a : this.asteroidTree.getEntities( bulletBox ) ) {
+                if ( a.isCollidingWith( b ) ) {
+                    a.hitBy( this, b );
+                }
+            }
+            for ( EnemyShip e : this.enemyShipTree.getEntities( bulletBox ) ) {
+                if ( e.isCollidingWith( b ) ) {
+                    e.hitBy( this, b );
+                }
+            }
+        }
+
+        this.enemyShipTree.clear();
+        for ( EnemyShip e : new ArrayList<EnemyShip>( this.enemyShips ) ) {
+            e.update( this, pane, delta );
+            if ( e.isDead() ) {
+                this.enemyShips.remove( e );
+            } else {
+                this.enemyShipTree.insert( e );
+            }
+        }
+
+        Rectangle playerSearchBox = new Rectangle( this.player.getBoundingBox() );
+        playerSearchBox.grow( 20, 20 );
+        for ( Asteroid a : this.asteroidTree.getEntities( playerSearchBox ) ) {
             if ( this.player.isCollidingWith( a ) ) {
-                this.player.setIsDead( true );
+                this.player.hitBy( this, a );
+            }
+        }
+
+        for ( Bullet b : this.bulletTree.getEntities( playerSearchBox ) ) {
+            if ( this.player.isCollidingWith( b ) ) {
+                this.player.hitBy( this, b );
+            }
+        }
+
+        for ( EnemyShip e : this.enemyShipTree.getEntities( playerSearchBox ) ) {
+            if ( this.player.isCollidingWith( e ) ) {
+                this.player.hitBy( this, e );
             }
         }
 
         this.generateAsteroid( pane, delta );
-        //this.generateEnemyShip( pane, delta );
+        this.generateEnemyShip( pane, delta );
     }
 
     public void addEntity( Bullet e ) {
         this.bullets.add( e );
-        this.renderedEntities.add( e );
+        this.bulletTree.insert( e );
     }
 
     public void addEntity( Asteroid a ) {
-        System.out.println( "ASTEROID" );
-        this.asteroids.insert( a );
+        this.asteroids.add( a );
+        this.asteroidTree.insert( a );
     }
 
     public void addEntity( EnemyShip e ) {
         this.enemyShips.add( e );
-        this.renderedEntities.add( e );
+        this.enemyShipTree.insert( e );
     }
 
     public void addEntity( Portal p ) {
-        this.renderedEntities.remove( this.portal );
-        this.renderedEntities.add( p );
         this.portal = p;
     }
 
@@ -130,8 +193,11 @@ public class World {
     }
 
     private void generateAsteroid( GamePane pane, long delta ) {
-        if ( this.asteroidTimer > 1000 ) {
-            this.addEntity( new Asteroid( World.rnd.nextInt( pane.getWidth() - 100 ), 100, 100, 100 ) ); 
+        if ( this.asteroidTimer > 3000 ) {
+            this.addEntity( new Asteroid( 
+                        World.rnd.nextInt( pane.getWidth() - 100 ), 
+                        -100, 100, 100 ) 
+            ); 
             this.asteroidTimer = 0;
         }
 
@@ -154,11 +220,6 @@ public class World {
     }
 
     public void generateBackground( int number ) {
-        try {
-            this.background = ImageIO.read( World.class.getResourceAsStream( "/back" + number + ".jpg" ) );
-        } catch ( IOException e ) {
-            this.background = null;
-            e.printStackTrace();
-        }
+        this.background = Bitmap.loadImage( "back" + number + ".jpg" );
     }
 }

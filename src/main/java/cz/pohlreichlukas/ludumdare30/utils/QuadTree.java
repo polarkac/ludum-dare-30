@@ -7,7 +7,7 @@ import cz.pohlreichlukas.ludumdare30.entities.Entity;
 
 public class QuadTree<T extends Entity> {
     
-    private final static int MAX_NODES = 2;
+    private final static int MAX_NODES = 5;
 
     private Rectangle region;
     private ArrayList<T> entities;

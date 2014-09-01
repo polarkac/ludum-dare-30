@@ -4,24 +4,18 @@ import java.lang.Math;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Graphics2D;
-import java.io.IOException;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 
 import cz.pohlreichlukas.ludumdare30.entities.Asteroid;
 import cz.pohlreichlukas.ludumdare30.entities.Entity;
+import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 
 public class AsteroidRendererComponent extends RendererComponent {
 
     private BufferedImage asteroidImage;
 
     public AsteroidRendererComponent() {
-        try { 
-            this.asteroidImage = ImageIO.read( AsteroidRendererComponent.class.getResourceAsStream( "/asteroid_100.png" ) );
-        } catch ( IOException e ) {
-            this.asteroidImage = null;
-            e.printStackTrace();
-        }
+        this.asteroidImage = Bitmap.asteroid100;
     }
     
     public void render( Entity e, Graphics2D g ) {

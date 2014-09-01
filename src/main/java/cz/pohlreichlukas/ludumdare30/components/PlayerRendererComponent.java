@@ -1,24 +1,18 @@
 package cz.pohlreichlukas.ludumdare30.components;
 
 import java.awt.Graphics2D;
-import java.io.IOException;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 
 import cz.pohlreichlukas.ludumdare30.entities.Entity;
 import cz.pohlreichlukas.ludumdare30.entities.Player;
+import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 
 public class PlayerRendererComponent extends RendererComponent {
 
     private BufferedImage playerImage;
 
     public PlayerRendererComponent() {
-        try {
-            this.playerImage = ImageIO.read( PlayerRendererComponent.class.getResourceAsStream( "/player.png" ) );
-        } catch ( IOException e ) {
-            this.playerImage = null;
-            e.printStackTrace();
-        }
+        this.playerImage = Bitmap.player; 
     }
     
     public void render( Entity e, Graphics2D g ) {

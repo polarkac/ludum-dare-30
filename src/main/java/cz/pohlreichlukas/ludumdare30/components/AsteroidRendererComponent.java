@@ -27,7 +27,7 @@ public class AsteroidRendererComponent extends RendererComponent {
     public void render( Entity e, Graphics2D g ) {
         super.render( e, g );
         Asteroid a = (Asteroid) e;
-        /*if ( this.asteroidImage != null ) {
+        if ( this.asteroidImage != null ) {
             g.rotate( Math.toRadians( a.getImgAngle() ), a.getX() + a.getWidth() / 2, a.getY() + a.getHeight() / 2 );
             g.drawImage( 
                     this.asteroidImage, 
@@ -37,7 +37,7 @@ public class AsteroidRendererComponent extends RendererComponent {
                     e.getHeight(),
                     null );
             g.rotate( Math.toRadians( -a.getImgAngle() ), a.getX() + a.getWidth() / 2, a.getY() + a.getHeight() / 2 );
-        }*/
+        }
 
         g.setColor( Color.white );
         Rectangle r = e.getBoundingBox();

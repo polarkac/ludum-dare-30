@@ -6,7 +6,7 @@ import java.lang.Thread;
 
 public class Game {
 
-    public static final boolean IS_DEBUG = false;
+    public static final boolean IS_DEBUG = true;
     
     public static void main( String[] args ) {
         GamePane gamePane = new GamePane();

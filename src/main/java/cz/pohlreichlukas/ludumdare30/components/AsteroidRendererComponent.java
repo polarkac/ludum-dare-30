@@ -32,13 +32,5 @@ public class AsteroidRendererComponent extends RendererComponent {
                     null );
             g.rotate( Math.toRadians( -a.getImgAngle() ), a.getX() + a.getWidth() / 2, a.getY() + a.getHeight() / 2 );
         }
-
-        g.setColor( Color.white );
-        Rectangle r = e.getBoundingBox();
-        int x = (int) r.getX();
-        int y = (int) r.getY();
-        int width = (int) r.getWidth();
-        int height = (int) r.getHeight();
-        g.fillOval( x - 2 + width / 2, y - 2 + height / 2, 5, 5 );
     }    
 }

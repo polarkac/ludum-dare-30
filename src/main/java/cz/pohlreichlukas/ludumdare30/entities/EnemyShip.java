@@ -20,8 +20,6 @@ public class EnemyShip extends Entity {
         this.speed = 150;
     }
 
-    public void hitBy( World world, Entity e ) {}
-
     public void hitBy( World world, Bullet e ) {
         this.lifes--;
         e.hitBy( world, this );

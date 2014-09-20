@@ -36,10 +36,6 @@ public class Asteroid extends Entity {
         this.speed = speed;
     }
 
-    public void hitBy( World world, Entity e ) {
-        
-    }
-
     public void hitBy( World world, Bullet a ) {
         this.lifes--;
         a.hitBy( world, this );
@@ -49,6 +45,9 @@ public class Asteroid extends Entity {
             Random rnd = new Random( System.currentTimeMillis() );
             if ( this.getWidth() == 50 && rnd.nextInt( 4 ) == 2 ) {
                 world.addEntity( new Portal( this.getX(), this.getY() ) );
+            } else if ( this.getWidth() != 50 ) {
+                world.addEntity( new Asteroid( this.getX() - 40, this.getY(), 50, 50 ) );
+                world.addEntity( new Asteroid( this.getX() + 40, this.getY(), 50, 50 ) );
             }
         }
     }

@@ -31,10 +31,6 @@ public class Portal extends Entity {
         g.drawImage( this.portalImage, (int) this.getX(), (int) this.getY(), null );
     }
 
-    public void hitBy( World world, Entity e ) {
-    
-    }
-
     public void hitBy( World world, Player e ) {
         this.setIsDead( true );
     }

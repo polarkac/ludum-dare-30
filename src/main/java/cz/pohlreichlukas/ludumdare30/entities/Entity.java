@@ -43,7 +43,7 @@ abstract public class Entity {
     }
 
     public boolean isCollidingWith( Entity e ) {
-        if ( this.isDead ) return false;
+        if ( this.isDead() || e.isDead() ) return false;
         if ( e == this ) {
             return false;
         }

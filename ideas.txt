@@ -1,7 +1,0 @@
-=== CONNECTED WORLDS ===
-
-Laser Age
-    * levely s postupne se zvetsujici obtiznosti (pocet nepratel?)
-    * pickups pro upgrade zbrani
-    * zasah od nepritele -> downgrade zbrani
-Nahodny drop predmetu z nepratel -> pri urcitem poctu itemu moznost prejit do dalsiho sveta?

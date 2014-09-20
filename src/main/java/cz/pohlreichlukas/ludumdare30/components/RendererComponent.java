@@ -7,9 +7,9 @@ import java.awt.Rectangle;
 import cz.pohlreichlukas.ludumdare30.entities.Entity;
 import cz.pohlreichlukas.ludumdare30.Game;
 
-abstract public class RendererComponent {
+abstract public class RendererComponent<T extends Entity> {
     
-    public void render( Entity e, Graphics2D g ) {
+    public void render( T e, Graphics2D g ) {
         if ( Game.IS_DEBUG ) {
             g.setColor( Color.green );
             Rectangle bb = e.getBoundingBox();

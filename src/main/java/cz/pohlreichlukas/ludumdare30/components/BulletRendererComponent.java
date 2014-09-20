@@ -3,10 +3,9 @@ package cz.pohlreichlukas.ludumdare30.components;
 import java.awt.Graphics2D;
 import java.awt.Color;
 
-import cz.pohlreichlukas.ludumdare30.entities.Entity;
 import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 
-public class BulletRendererComponent extends RendererComponent {
+public class BulletRendererComponent extends RendererComponent<Bullet> {
 
     private Color color;
 
@@ -14,10 +13,9 @@ public class BulletRendererComponent extends RendererComponent {
         this.color = c;
     }
 
-    public void render( Entity e, Graphics2D g ) {
+    public void render( Bullet e, Graphics2D g ) {
         super.render( e, g );
-        Bullet b = (Bullet) e;
         g.setColor( this.color );
-        g.fillRect( (int) b.getX(), (int) b.getY(), 2, 10 );
+        g.fillRect( (int) e.getX(), (int) e.getY(), 2, 10 );
     }    
 }

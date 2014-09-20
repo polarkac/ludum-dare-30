@@ -2,18 +2,21 @@ package cz.pohlreichlukas.ludumdare30.entities;
 
 import java.lang.Math;
 import java.util.Random;
+import java.awt.image.BufferedImage;
 
 import cz.pohlreichlukas.ludumdare30.components.AsteroidRendererComponent;
 import cz.pohlreichlukas.ludumdare30.components.AsteroidInputComponent;
 import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 import cz.pohlreichlukas.ludumdare30.entities.Portal;
 import cz.pohlreichlukas.ludumdare30.worlds.World;
+import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 
 public class Asteroid extends Entity {
 
     private int speed;
     private int lifes;
     private float angle;
+    private BufferedImage image;
     
     public Asteroid( float x, float y, int width, int height ) {
         super( x, y, width, height );
@@ -22,6 +25,7 @@ public class Asteroid extends Entity {
         this.speed = 80;
         this.lifes = Math.round( width / 10 );
         this.angle = ( new Random() ).nextInt( 360 );
+        this.image = Bitmap.asteroid100;
     }
 
     public Asteroid( float x, float y ) {
@@ -62,5 +66,9 @@ public class Asteroid extends Entity {
 
     public void setAngle( float angle ) {
         this.angle = angle;
+    }
+
+    public BufferedImage getImage() {
+        return this.image;	
     }
 }

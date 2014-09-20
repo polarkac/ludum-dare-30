@@ -3,10 +3,10 @@ package cz.pohlreichlukas.ludumdare30.components;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import cz.pohlreichlukas.ludumdare30.entities.Entity;
+import cz.pohlreichlukas.ludumdare30.entities.EnemyShip;
 import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 
-public class EnemyShipRendererComponent extends RendererComponent {
+public class EnemyShipRendererComponent extends RendererComponent<EnemyShip> {
     
     private BufferedImage enemyShipImage;
 
@@ -14,7 +14,7 @@ public class EnemyShipRendererComponent extends RendererComponent {
         this.enemyShipImage = Bitmap.enemyShip;
     }
 
-    public void render( Entity e, Graphics2D g ) {
+    public void render( EnemyShip e, Graphics2D g ) {
         super.render( e, g );
         if ( this.enemyShipImage != null ) {
             g.drawImage( this.enemyShipImage, (int) e.getX(), (int) e.getY(), null );

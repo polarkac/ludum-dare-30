@@ -1,16 +1,19 @@
 package cz.pohlreichlukas.ludumdare30.entities;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 import cz.pohlreichlukas.ludumdare30.components.EnemyShipRendererComponent;
 import cz.pohlreichlukas.ludumdare30.components.EnemyShipInputComponent;
 import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 import cz.pohlreichlukas.ludumdare30.worlds.World;
+import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 
 public class EnemyShip extends Entity {
 
     private int lifes;
     private int speed;
+    private BufferedImage image;
     
     public EnemyShip( float x, float y ) {
         super( x, y, 64, 64 );
@@ -18,6 +21,7 @@ public class EnemyShip extends Entity {
         this.input = new EnemyShipInputComponent( x, y );
         this.lifes = 5;
         this.speed = 150;
+        this.image = Bitmap.enemyShip;
     }
 
     public void hitBy( World world, Bullet e ) {
@@ -41,5 +45,9 @@ public class EnemyShip extends Entity {
         Bullet b = new Bullet( this.getX() + this.getWidth() / 2, this.getY() + this.getHeight() + 5, true, Color.green );
         b.setParent( this );
         world.addEntity( b );
+    }
+
+    public BufferedImage getImage() {
+        return this.image;	
     }
 }

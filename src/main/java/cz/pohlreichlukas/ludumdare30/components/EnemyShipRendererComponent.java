@@ -8,16 +8,8 @@ import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 
 public class EnemyShipRendererComponent extends RendererComponent<EnemyShip> {
     
-    private BufferedImage enemyShipImage;
-
-    public EnemyShipRendererComponent() {
-        this.enemyShipImage = Bitmap.enemyShip;
-    }
-
     public void render( EnemyShip e, Graphics2D g ) {
         super.render( e, g );
-        if ( this.enemyShipImage != null ) {
-            g.drawImage( this.enemyShipImage, (int) e.getX(), (int) e.getY(), null );
-        }
+        g.drawImage( e.getImage(), (int) e.getX(), (int) e.getY(), null );
     }    
 }

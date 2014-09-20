@@ -11,7 +11,7 @@ import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 import cz.pohlreichlukas.ludumdare30.input.InputListener;
 import cz.pohlreichlukas.ludumdare30.worlds.World;
 
-public class PlayerInputComponent implements InputComponent {
+public class PlayerInputComponent implements InputComponent<Player> {
     
     private int bulletTimer;
 
@@ -19,17 +19,16 @@ public class PlayerInputComponent implements InputComponent {
         this.bulletTimer = 0;
     }
 
-    public void update( Entity e, World world, GamePane pane, long delta ) {
-        Player p = (Player) e;
+    public void update( Player e, World world, GamePane pane, long delta ) {
         Point mousePosition = pane.getMousePosition();
         if ( mousePosition !=  null ) {
-            p.setX( (float) mousePosition.getX() - p.getWidth() / 2 );
-            p.setY( (float) mousePosition.getY() - p.getHeight() / 2 );
+            e.setX( (float) mousePosition.getX() - e.getWidth() / 2 );
+            e.setY( (float) mousePosition.getY() - e.getHeight() / 2 );
         }
 
         InputListener input = pane.getInput();
         if ( input.isLeftDown() && this.bulletTimer <= 0 ) {
-            this.createBullet( p, world );
+            this.createBullet( e, world );
             this.bulletTimer = 200;
         }
 

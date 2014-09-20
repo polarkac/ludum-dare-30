@@ -7,25 +7,24 @@ import cz.pohlreichlukas.ludumdare30.entities.Asteroid;
 import cz.pohlreichlukas.ludumdare30.worlds.World;
 import cz.pohlreichlukas.ludumdare30.GamePane;
 
-public class AsteroidInputComponent implements InputComponent {
+public class AsteroidInputComponent implements InputComponent<Asteroid> {
     
     private static Random rnd = new Random();
 
-    public void update( Entity e, World world, GamePane pane, long delta ) {
-        Asteroid a = (Asteroid) e;
-        a.setY( a.getY() + ( a.getSpeed() / 1000f ) * delta );
+    public void update( Asteroid e, World world, GamePane pane, long delta ) {
+        e.setY( e.getY() + ( e.getSpeed() / 1000f ) * delta );
 
-        if ( a.getY() > pane.getHeight() ) {
-            a.setIsDead( true );
+        if ( e.getY() > pane.getHeight() ) {
+            e.setIsDead( true );
         }
 
-        if ( a.isDead() && a.getLifes() == 0 && e.getWidth() > 50 ) {
-            Asteroid left = new Asteroid( a.getX() - 30, a.getY(), 50, 50 );
-            Asteroid right = new Asteroid( a.getX() + 30, a.getY(), 50, 50 );
+        if ( e.isDead() && e.getLifes() == 0 && e.getWidth() > 50 ) {
+            Asteroid left = new Asteroid( e.getX() - 30, e.getY(), 50, 50 );
+            Asteroid right = new Asteroid( e.getX() + 30, e.getY(), 50, 50 );
             world.addEntity( left );
             world.addEntity( right );
         }
 
-        a.setAngle( a.getAngle() + 20 / 1000f * delta );
+        e.setAngle( e.getAngle() + 20 / 1000f * delta );
     }
 }

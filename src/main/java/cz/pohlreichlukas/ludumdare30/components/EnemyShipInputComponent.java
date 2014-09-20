@@ -9,7 +9,7 @@ import cz.pohlreichlukas.ludumdare30.entities.Entity;
 import cz.pohlreichlukas.ludumdare30.entities.Player;
 import cz.pohlreichlukas.ludumdare30.entities.EnemyShip;
 
-public class EnemyShipInputComponent implements InputComponent {
+public class EnemyShipInputComponent implements InputComponent<EnemyShip> {
 
     private Random rnd = new Random( System.currentTimeMillis() );
     private Point actualWaypoint;
@@ -27,35 +27,34 @@ public class EnemyShipInputComponent implements InputComponent {
         }
     }
     
-    public void update( Entity e, World world, GamePane pane, long delta ) {
+    public void update( EnemyShip e, World world, GamePane pane, long delta ) {
         Player p = world.getPlayer();
-        EnemyShip ship = (EnemyShip) e;
         if ( this.toRight ) {
-            ship.setX( ship.getX() + ship.getSpeed() / 1000f * delta );
-            if ( ship.getX() > this.actualWaypoint.getX() ) {
-                this.regenerateWaypoint( pane.getWidth(), ship.getX() );
+            e.setX( e.getX() + e.getSpeed() / 1000f * delta );
+            if ( e.getX() > this.actualWaypoint.getX() ) {
+                this.regenerateWaypoint( pane.getWidth(), e.getX() );
             }
         } else {
-            ship.setX( ship.getX() - ship.getSpeed() / 1000f * delta );
-            if ( ship.getX() < this.actualWaypoint.getX() ) {
-                this.regenerateWaypoint( pane.getWidth(), ship.getX() );
+            e.setX( e.getX() - e.getSpeed() / 1000f * delta );
+            if ( e.getX() < this.actualWaypoint.getX() ) {
+                this.regenerateWaypoint( pane.getWidth(), e.getX() );
             }
         }
 
-        float differencePlayer = p.getY() - ship.getY();
+        float differencePlayer = p.getY() - e.getY();
         if ( differencePlayer > pane.getHeight() / 100 * this.distancePercent ) {
-            ship.setY( ship.getY() + ship.getSpeed() / 1000f * delta );
+            e.setY( e.getY() + e.getSpeed() / 1000f * delta );
         } else if ( differencePlayer < pane.getHeight() / 100 * this.distancePercent ) {
-            ship.setY( ship.getY() - ship.getSpeed() / 1000f * delta );
+            e.setY( e.getY() - e.getSpeed() / 1000f * delta );
         }
          
-        if ( ship.getY() < 0 ) {
-            ship.setY( 0 );
+        if ( e.getY() < 0 ) {
+            e.setY( 0 );
         }
 
-        boolean inFireZone = ship.getX() >= p.getX() && ship.getX() < p.getX() + p.getWidth();
+        boolean inFireZone = e.getX() >= p.getX() && e.getX() < p.getX() + p.getWidth();
         if ( inFireZone && this.fireTimer <= 0 ) {
-            ship.fire( world );
+            e.fire( world );
             this.fireTimer = 200;
         }
 

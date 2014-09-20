@@ -22,7 +22,7 @@ public class AsteroidRendererComponent extends RendererComponent {
         super.render( e, g );
         Asteroid a = (Asteroid) e;
         if ( this.asteroidImage != null ) {
-            g.rotate( Math.toRadians( a.getImgAngle() ), a.getX() + a.getWidth() / 2, a.getY() + a.getHeight() / 2 );
+            g.rotate( Math.toRadians( a.getAngle() ), a.getX() + a.getWidth() / 2, a.getY() + a.getHeight() / 2 );
             g.drawImage( 
                     this.asteroidImage, 
                     (int) e.getX(), 
@@ -30,7 +30,7 @@ public class AsteroidRendererComponent extends RendererComponent {
                     e.getWidth(),
                     e.getHeight(),
                     null );
-            g.rotate( Math.toRadians( -a.getImgAngle() ), a.getX() + a.getWidth() / 2, a.getY() + a.getHeight() / 2 );
+            g.rotate( Math.toRadians( -a.getAngle() ), a.getX() + a.getWidth() / 2, a.getY() + a.getHeight() / 2 );
         }
     }    
 }

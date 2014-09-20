@@ -26,6 +26,6 @@ public class AsteroidInputComponent implements InputComponent {
             world.addEntity( right );
         }
 
-        a.setImgAngle( a.getImgAngle() + 20 / 1000f * delta );
+        a.setAngle( a.getAngle() + 20 / 1000f * delta );
     }
 }

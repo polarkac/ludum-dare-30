@@ -13,7 +13,7 @@ public class Asteroid extends Entity {
 
     private int speed;
     private int lifes;
-    private float imgAngle;
+    private float angle;
     
     public Asteroid( float x, float y, int width, int height ) {
         super( x, y, width, height );
@@ -21,7 +21,7 @@ public class Asteroid extends Entity {
         this.input = new AsteroidInputComponent();
         this.speed = 80;
         this.lifes = Math.round( width / 10 );
-        this.imgAngle = ( new Random() ).nextInt( 360 );
+        this.angle = ( new Random() ).nextInt( 360 );
     }
 
     public Asteroid( float x, float y ) {
@@ -56,11 +56,11 @@ public class Asteroid extends Entity {
         return this.lifes;	
     }
 
-    public float getImgAngle() {
-        return this.imgAngle;	
+    public float getAngle() {
+        return this.angle;	
     }
 
-    public void setImgAngle( float imgAngle ) {
-        this.imgAngle = imgAngle;
+    public void setAngle( float angle ) {
+        this.angle = angle;
     }
 }

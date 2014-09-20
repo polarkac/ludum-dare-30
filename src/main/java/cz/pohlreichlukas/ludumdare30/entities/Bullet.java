@@ -49,7 +49,11 @@ public class Bullet extends Entity {
 
     public void hitBy( World world, Entity e ) {
         if ( e != this.parent ) {
-            world.addParticle( new Particle( this.getX(), this.getY(), Particle.asteroidHit ) );
+            if ( !this.isDownDirection() ) {
+                world.addParticle( new Particle( this.getX(), this.getY(), Particle.asteroidHit ) );
+            } else {
+                world.addParticle( new Particle( this.getX(), this.getY(), Particle.asteroidHitRotated ) );
+            }
             this.setIsDead( true );
         }
     }

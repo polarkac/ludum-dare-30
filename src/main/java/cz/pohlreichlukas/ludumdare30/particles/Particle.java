@@ -11,6 +11,7 @@ import cz.pohlreichlukas.ludumdare30.GamePane;
 public class Particle {
     
     public static BufferedImage asteroidHit = Particle.loadImage( "asteroid_hit.png" );
+    public static BufferedImage asteroidHitRotated = Particle.createRotatedImage( Particle.asteroidHit, 180 );
 
     private float x;
     private float y;
@@ -51,5 +52,19 @@ public class Particle {
         }
 
         return temp;
+    }
+
+    public static BufferedImage createRotatedImage( BufferedImage img, int angle ) {
+        BufferedImage rotatedImage = new BufferedImage( 
+                img.getWidth(),
+                img.getHeight(),
+                BufferedImage.TYPE_INT_ARGB
+        );
+        Graphics2D g = rotatedImage.createGraphics();
+        g.rotate( Math.toRadians( angle ), img.getWidth() / 2, img.getHeight() / 2 );
+        g.drawImage( img, 0, 0, null );
+        g.dispose();
+
+        return rotatedImage;
     }
 }

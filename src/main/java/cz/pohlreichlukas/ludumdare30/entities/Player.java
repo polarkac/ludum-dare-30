@@ -1,16 +1,19 @@
 package cz.pohlreichlukas.ludumdare30.entities;
 
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
 import cz.pohlreichlukas.ludumdare30.components.PlayerRendererComponent;
 import cz.pohlreichlukas.ludumdare30.components.PlayerInputComponent;
 import cz.pohlreichlukas.ludumdare30.entities.Bullet;
 import cz.pohlreichlukas.ludumdare30.GamePane;
 import cz.pohlreichlukas.ludumdare30.worlds.World;
+import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 
 public class Player extends Entity {
 
     private int lifes;
+    private BufferedImage image;
 
     public Player( float x, float y ) {
         this( x, y, 64, 64 );
@@ -23,6 +26,7 @@ public class Player extends Entity {
         this.lifes = 5;
         this.getBoundingBox().setSize( 50, 50 );
         this.getBoundingBox().setLocation( (int) x + 12, (int) y + 12 );
+        this.image = Bitmap.player;
     }
 
     public void update( World world, GamePane pane, long delta ) {
@@ -47,5 +51,9 @@ public class Player extends Entity {
 
     public int getLifes() {
         return this.lifes;
+    }
+
+    public BufferedImage getImage() {
+        return this.image;	
     }
 }

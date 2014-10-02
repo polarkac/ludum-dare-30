@@ -16,7 +16,6 @@ public class Asteroid extends Entity {
     private int speed;
     private int lifes;
     private float angle;
-    private BufferedImage image;
     
     public Asteroid( float x, float y, int width, int height ) {
         super( x, y, width, height );

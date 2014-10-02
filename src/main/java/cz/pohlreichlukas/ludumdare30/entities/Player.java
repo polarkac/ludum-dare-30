@@ -13,7 +13,6 @@ import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 public class Player extends Entity {
 
     private int lifes;
-    private BufferedImage image;
 
     public Player( float x, float y ) {
         this( x, y, 64, 64 );
@@ -51,9 +50,5 @@ public class Player extends Entity {
 
     public int getLifes() {
         return this.lifes;
-    }
-
-    public BufferedImage getImage() {
-        return this.image;	
     }
 }

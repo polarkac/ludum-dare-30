@@ -12,6 +12,7 @@ public class Bitmap {
     public static BufferedImage asteroid100 = Bitmap.loadImage( "asteroid_100.png" );
     public static BufferedImage player = Bitmap.loadImage( "player.png" );
     public static BufferedImage enemyShip = Bitmap.loadImage( "enemy_ship.png" );
+    public static BufferedImage portal = Bitmap.loadImage( "portal.png" );
 
     public static BufferedImage loadImage( String name ) {
         BufferedImage img = null;

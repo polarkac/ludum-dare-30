@@ -13,7 +13,6 @@ public class EnemyShip extends Entity {
 
     private int lifes;
     private int speed;
-    private BufferedImage image;
     
     public EnemyShip( float x, float y ) {
         super( x, y, 64, 64 );

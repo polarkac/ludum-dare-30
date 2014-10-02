@@ -2,6 +2,7 @@ package cz.pohlreichlukas.ludumdare30.entities;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 import cz.pohlreichlukas.ludumdare30.components.RendererComponent;
 import cz.pohlreichlukas.ludumdare30.components.InputComponent;
@@ -18,6 +19,7 @@ abstract public class Entity {
     protected RendererComponent renderer;
     protected InputComponent input;
     protected Entity parent;
+    protected BufferedImage image;
 
     public Entity( float x, float y ) {
         this( x, y, 0, 0 );
@@ -100,5 +102,9 @@ abstract public class Entity {
 
     public void setParent( Entity parent ) {
         this.parent = parent;
+    }
+
+    public BufferedImage getImage() {
+        return this.image;
     }
 }

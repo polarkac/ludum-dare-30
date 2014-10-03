@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import cz.pohlreichlukas.ludumdare30.components.AsteroidRendererComponent;
 import cz.pohlreichlukas.ludumdare30.components.AsteroidInputComponent;
 import cz.pohlreichlukas.ludumdare30.entities.Bullet;
-import cz.pohlreichlukas.ludumdare30.entities.Portal;
 import cz.pohlreichlukas.ludumdare30.worlds.World;
 import cz.pohlreichlukas.ludumdare30.utils.Bitmap;
 
@@ -44,16 +43,7 @@ public class Asteroid extends Entity {
         this.lifes--;
         a.hitBy( world, this );
 
-        if ( this.lifes == 0 ) {
-            this.setIsDead( true );
-            Random rnd = new Random( System.currentTimeMillis() );
-            if ( this.getWidth() == 50 && rnd.nextInt( 4 ) == 2 ) {
-                world.addEntity( new Portal( this.getX(), this.getY() ) );
-            } else if ( this.getWidth() != 50 ) {
-                world.addEntity( new Asteroid( this.getX() - 40, this.getY(), 50, 50 ) );
-                world.addEntity( new Asteroid( this.getX() + 40, this.getY(), 50, 50 ) );
-            }
-        }
+        this.setIsDead( this.lifes == 0 );
     }
 
     public int getLifes() {
@@ -66,9 +56,5 @@ public class Asteroid extends Entity {
 
     public void setAngle( float angle ) {
         this.angle = angle;
-    }
-
-    public BufferedImage getImage() {
-        return this.image;	
     }
 }

@@ -108,20 +108,18 @@ public class World {
         this.player.update( this, pane, delta );
 
         for ( Particle p : new ArrayList<Particle>( this.particles ) ) {
+            p.update( this, pane, delta );
             if ( p.isDead() ) {
                 this.particles.remove( p );
-            } else {
-                p.update( this, pane, delta );
             }
         }
 
         this.asteroidTree.clear();
         for ( Asteroid a : new ArrayList<Asteroid>( this.asteroids ) ) {
+            this.asteroidTree.insert( a );
+            a.update( this, pane, delta );
             if ( a.isDead() ) {
                 this.asteroids.remove( a );
-            } else {
-                this.asteroidTree.insert( a );
-                a.update( this, pane, delta );
             }
         }
 
@@ -132,11 +130,10 @@ public class World {
         this.bulletTree.clear();
         Rectangle bulletBox = new Rectangle( 0, 0, 0, 0 );
         for ( Bullet b : new ArrayList<Bullet>( this.bullets ) ) {
+            this.bulletTree.insert( b );
+            b.update( this, pane, delta );
             if ( b.isDead() ) {
                 this.bullets.remove( b );
-            } else {
-                this.bulletTree.insert( b );
-                b.update( this, pane, delta );
             }
             bulletBox.setBounds( b.getBoundingBox() );
             bulletBox.grow( 5, 5 );
@@ -154,11 +151,10 @@ public class World {
 
         this.enemyShipTree.clear();
         for ( EnemyShip e : new ArrayList<EnemyShip>( this.enemyShips ) ) {
+            this.enemyShipTree.insert( e );
+            e.update( this, pane, delta );
             if ( e.isDead() ) {
                 this.enemyShips.remove( e );
-            } else {
-                this.enemyShipTree.insert( e );
-                e.update( this, pane, delta );
             }
         }
 

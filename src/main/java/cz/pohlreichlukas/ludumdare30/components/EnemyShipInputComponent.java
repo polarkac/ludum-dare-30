@@ -18,8 +18,7 @@ public class EnemyShipInputComponent implements InputComponent<EnemyShip> {
     private int distancePercent;
 
     public EnemyShipInputComponent( float x, float y ) {
-        this.actualWaypoint = new Point( 0, 0 );
-        this.regenerateWaypoint( 200, x );
+        this.actualWaypoint = null;
         this.fireTimer = 0;
         this.distancePercent = this.rnd.nextInt( 10000 ) % 80;
         if ( this.distancePercent < 30 ) {
@@ -29,24 +28,20 @@ public class EnemyShipInputComponent implements InputComponent<EnemyShip> {
     
     public void update( EnemyShip e, World world, GamePane pane, long delta ) {
         Player p = world.getPlayer();
-        if ( this.toRight ) {
-            e.setX( e.getX() + e.getSpeed() / 1000f * delta );
-            if ( e.getX() > this.actualWaypoint.getX() ) {
-                this.regenerateWaypoint( pane.getWidth(), e.getX() );
-            }
-        } else {
-            e.setX( e.getX() - e.getSpeed() / 1000f * delta );
-            if ( e.getX() < this.actualWaypoint.getX() ) {
-                this.regenerateWaypoint( pane.getWidth(), e.getX() );
-            }
+        if ( ( this.actualWaypoint == null ) || 
+                ( e.getX() > this.actualWaypoint.getX() && e.getVelocityX() > 0 ) || 
+                ( e.getX() < this.actualWaypoint.getX() && e.getVelocityX() < 0 ) ) {
+            this.regenerateWaypoint( e, pane.getWidth() );
         }
 
         float differencePlayer = p.getY() - e.getY();
         if ( differencePlayer > pane.getHeight() / 100 * this.distancePercent ) {
-            e.setY( e.getY() + e.getSpeed() / 1000f * delta );
+            e.setVelocity( e.getVelocityX(), e.getSpeed() );
         } else if ( differencePlayer < pane.getHeight() / 100 * this.distancePercent ) {
-            e.setY( e.getY() - e.getSpeed() / 1000f * delta );
+            e.setVelocity( e.getVelocityX(), -e.getSpeed() );
         }
+        e.setX( e.getX() + e.getVelocityX() / 1000f * delta );
+        e.setY( e.getY() + e.getVelocityY() / 1000f * delta );
          
         if ( e.getY() < 0 ) {
             e.setY( 0 );
@@ -63,13 +58,16 @@ public class EnemyShipInputComponent implements InputComponent<EnemyShip> {
         }
     }    
 
-    private void regenerateWaypoint( int maxWidth, float x ) {
+    private void regenerateWaypoint( EnemyShip e, int maxWidth ) {
+        if ( this.actualWaypoint == null ) {
+            this.actualWaypoint = new Point( 0, 0 );
+        }
         int newX = this.rnd.nextInt( 10000000 ) % maxWidth;
         this.actualWaypoint.setLocation( newX, 0 );
-        if ( this.actualWaypoint.getX() < x ) {
-            this.toRight = false;
+        if ( this.actualWaypoint.getX() < e.getX() ) {
+            e.setVelocity( -e.getSpeed(), e.getVelocityY() );
         } else {
-            this.toRight = true;
+            e.setVelocity( e.getSpeed(), e.getVelocityY() );
         }
     }
 }

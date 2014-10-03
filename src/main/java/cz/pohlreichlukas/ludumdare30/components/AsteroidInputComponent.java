@@ -12,7 +12,8 @@ public class AsteroidInputComponent implements InputComponent<Asteroid> {
     private static Random rnd = new Random();
 
     public void update( Asteroid e, World world, GamePane pane, long delta ) {
-        e.setY( e.getY() + ( e.getSpeed() / 1000f ) * delta );
+        e.setY( e.getY() + ( e.getVelocityY() / 1000f ) * delta );
+        e.setX( e.getX() + ( e.getVelocityX() / 1000f ) * delta );
 
         if ( e.getY() > pane.getHeight() ) {
             e.setIsDead( true );

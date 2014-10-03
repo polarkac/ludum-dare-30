@@ -22,6 +22,7 @@ public class Asteroid extends Entity {
         this.renderer = new AsteroidRendererComponent();
         this.input = new AsteroidInputComponent();
         this.speed = 80;
+        this.setVelocity( 0, this.speed );
         this.lifes = Math.round( width / 10 );
         this.angle = ( new Random() ).nextInt( 360 );
         this.image = Bitmap.asteroid100;

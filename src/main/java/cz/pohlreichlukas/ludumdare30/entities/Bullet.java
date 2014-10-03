@@ -11,15 +11,18 @@ import cz.pohlreichlukas.ludumdare30.sounds.Sound;
 
 public class Bullet extends Entity {
     
-    private boolean downDirection;
     private int speed;
 
     public Bullet( float x, float y, boolean downDirection, Color c ) {
         super( x, y, 2, 10 );
         this.renderer = new BulletRendererComponent( c );
         this.input = new BulletInputComponent();
-        this.downDirection = downDirection;
         this.speed = 150;
+        if ( downDirection ) {
+            this.setVelocity( 0, this.speed );
+        } else {
+            this.setVelocity( 0, -this.speed );
+        }
     }
 
     public boolean isCollidingWith( Entity e ) {
@@ -29,14 +32,6 @@ public class Bullet extends Entity {
         }
 
         return isColliding;
-    }
-
-    public boolean isDownDirection() {
-        return this.downDirection;	
-    }
-
-    public void setDownDirection( boolean downDirection ) {
-        this.downDirection = downDirection;
     }
 
     public int getSpeed() {
@@ -49,7 +44,7 @@ public class Bullet extends Entity {
 
     public void hitBy( World world, Entity e ) {
         if ( e != this.parent ) {
-            if ( !this.isDownDirection() ) {
+            if ( this.getVelocityY() < 0 ) {
                 world.addParticle( new Particle( this.getX(), this.getY(), Particle.asteroidHit ) );
             } else {
                 world.addParticle( new Particle( this.getX(), this.getY(), Particle.asteroidHitRotated ) );

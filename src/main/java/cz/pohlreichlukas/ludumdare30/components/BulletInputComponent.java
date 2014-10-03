@@ -14,11 +14,7 @@ public class BulletInputComponent implements InputComponent<Bullet> {
     }
 
     public void update( Bullet e, World world, GamePane pane, long delta ) {
-        if ( e.isDownDirection() ) {
-            e.setY( e.getY() + ( e.getSpeed() / 1000f ) * delta );
-        } else {
-            e.setY( e.getY() - ( e.getSpeed() / 1000f ) * delta );
-        }
+        e.setY( e.getY() + ( e.getVelocityY() / 1000f ) * delta );
 
         this.liveTimer -= delta;
         if ( this.liveTimer <= 0 ) {

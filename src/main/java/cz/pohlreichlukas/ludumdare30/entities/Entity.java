@@ -14,6 +14,7 @@ abstract public class Entity {
     private int height;
     private int width;
     private float x, y;
+    private float velocityX, velocityY;
     private boolean isDead;
     private Rectangle boundingBox;
     protected RendererComponent renderer;
@@ -28,6 +29,7 @@ abstract public class Entity {
     public Entity( float x, float y, int width, int height ) {
         this.x = x;
         this.y = y;
+        this.velocityX = this.velocityY = 0;
         this.width = width;
         this.height = height;
         this.isDead = false;
@@ -66,6 +68,19 @@ abstract public class Entity {
 
     public void setY( float y ) {
         this.y = y;
+    }
+
+    public void setVelocity( float x, float y ) {
+        this.velocityX = x;
+        this.velocityY = y;
+    }
+
+    public float getVelocityX() {
+        return this.velocityX;
+    }
+
+    public float getVelocityY() {
+        return this.velocityY;
     }
 
     public int getWidth() {

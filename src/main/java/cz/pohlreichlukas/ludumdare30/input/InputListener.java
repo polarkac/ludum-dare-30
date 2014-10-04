@@ -52,21 +52,27 @@ public class InputListener implements MouseListener, MouseMotionListener {
     }
 
     public void mouseMoved( MouseEvent e ) {
-        this.lastMouseX = this.mouseX;
-        this.lastMouseY = this.mouseY;
-        this.mouseX = e.getX();
-        this.mouseY = e.getY();
+        int deltaX = e.getX() - this.pane.getWidth() / 2;
+        int deltaY = e.getY() - this.pane.getHeight() / 2;
+        this.mouseX = this.mouseX + deltaX;
+        this.mouseY = this.mouseY + deltaY;
+
+        if ( this.mouseX > this.pane.getWidth() ) {
+            this.mouseX = this.pane.getWidth();
+        } else if ( this.mouseX < 0 ) {
+            this.mouseX = 0;
+        }
+        if ( this.mouseY > this.pane.getHeight() ) {
+            this.mouseY = this.pane.getHeight();
+        } else if ( this.mouseY < 0 ) {
+            this.mouseY = 0;
+        }
+
+        this.moveMouseToCenter();
     }
 
     public void mouseDragged( MouseEvent e ) {
         this.mouseMoved( e );
-    }
-
-    public void mouseExited( MouseEvent e ) {
-        Point p = this.pane.getLocationOnScreen();
-        int panePosX = (int) p.getX();
-        int panePosY = (int) p.getY();
-        this.robot.mouseMove( this.lastMouseX + panePosX, this.lastMouseY + panePosY );
     }
 
     public boolean isLeftDown() {
@@ -93,6 +99,17 @@ public class InputListener implements MouseListener, MouseMotionListener {
         return this.lastMouseY;
     }
 
+    private void moveMouseToCenter() {
+        Point p = this.pane.getLocationOnScreen();
+        int windowX = (int) p.getX();
+        int windowY = (int) p.getY();
+        this.robot.mouseMove(
+                this.pane.getWidth() / 2 + windowX,
+                this.pane.getHeight() / 2 + windowY
+        );
+    }
+
+    public void mouseExited( MouseEvent e ) {}
     public void mouseClicked( MouseEvent e ) {}
     public void mouseEntered( MouseEvent e ) {}
 }

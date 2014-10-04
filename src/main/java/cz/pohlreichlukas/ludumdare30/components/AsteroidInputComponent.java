@@ -28,7 +28,9 @@ public class AsteroidInputComponent implements InputComponent<Asteroid> {
             world.addEntity( left );
             world.addEntity( right );
         } else if ( e.getLifes() == 0 && e.getWidth() == 50 ) {
+            if ( AsteroidInputComponent.rnd.nextInt( 4 ) == 2 ) {
                 world.addEntity( new Portal( e.getX(), e.getY() ) );
+            }
         }
 
         e.setAngle( e.getAngle() + 20 / 1000f * delta );

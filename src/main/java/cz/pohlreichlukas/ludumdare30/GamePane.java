@@ -25,7 +25,7 @@ public class GamePane extends Canvas implements Runnable {
     private Cursor bCursor;
 
     public GamePane() {
-        this.input = new InputListener();
+        this.input = new InputListener( this );
         this.gameScreen = new GameScreen();
         this.mainScreen = new MainScreen();
         this.activeScreen = this.mainScreen;

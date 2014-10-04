@@ -3,6 +3,11 @@ package cz.pohlreichlukas.ludumdare30.input;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
+import java.awt.Robot;
+import java.awt.AWTException;
+import java.awt.Point;
+
+import cz.pohlreichlukas.ludumdare30.GamePane;
 
 public class InputListener implements MouseListener, MouseMotionListener {
 
@@ -12,12 +17,14 @@ public class InputListener implements MouseListener, MouseMotionListener {
     private int lastMouseY;
     private int mouseX;
     private int mouseY;
+    private GamePane pane;
 
-    public InputListener() {
+    public InputListener( GamePane pane ) {
         this.leftIsDown = false;
         this.rightIsDown = false;
         this.lastMouseX = this.lastMouseY = 0;
         this.mouseX = this.mouseY = 0;
+        this.pane = pane;
     }
 
     public void mousePressed( MouseEvent e ) {
@@ -49,6 +56,18 @@ public class InputListener implements MouseListener, MouseMotionListener {
         this.mouseMoved( e );
     }
 
+    public void mouseExited( MouseEvent e ) {
+        try {
+            Robot r = new Robot();
+            Point p = this.pane.getLocationOnScreen();
+            int panePosX = (int) p.getX();
+            int panePosY = (int) p.getY();
+            r.mouseMove( this.lastMouseX + panePosX, this.lastMouseY + panePosY );
+        } catch ( AWTException a ) {
+            a.printStackTrace();
+        }
+    }
+
     public boolean isLeftDown() {
         return this.leftIsDown;
     }
@@ -75,5 +94,4 @@ public class InputListener implements MouseListener, MouseMotionListener {
 
     public void mouseClicked( MouseEvent e ) {}
     public void mouseEntered( MouseEvent e ) {}
-    public void mouseExited( MouseEvent e ) {}
 }

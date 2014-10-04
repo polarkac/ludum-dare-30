@@ -207,10 +207,9 @@ public class World {
 
     private void generateAsteroid( GamePane pane, long delta ) {
         if ( this.asteroidTimer > 3000 ) {
-            this.addEntity( new Asteroid( 
-                        World.rnd.nextInt( pane.getWidth() - 100 ), 
-                        -100, 100, 100 ) 
-            ); 
+            Asteroid a = new Asteroid( World.rnd.nextInt( pane.getWidth() - 100 ), -100, 100, 100 );
+            a.setVelocity( World.rnd.nextInt( 20 ), a.getVelocityY() );
+            this.addEntity( a );
             this.asteroidTimer = 0;
         }
 

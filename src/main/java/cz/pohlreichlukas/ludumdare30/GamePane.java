@@ -30,6 +30,7 @@ public class GamePane extends Canvas implements Runnable {
         this.mainScreen = new MainScreen();
         this.activeScreen = this.mainScreen;
         this.addMouseListener( this.input );
+        this.addMouseMotionListener( this.input );
         this.isRunning = true;
         this.setSize( 800, 600 );
 

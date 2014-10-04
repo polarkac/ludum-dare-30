@@ -75,16 +75,13 @@ public class MainScreen implements Screen {
 
     public void update( GamePane pane, long delta ) {
         pane.showCursor();
-        Point mousePosition = pane.getMousePosition();
-        if ( mousePosition != null ) {
-            if ( mousePosition.getY() > pane.getHeight() / 2 ) {
-                this.selectedOption = 1;
-            } else if ( mousePosition.getY() < pane.getHeight() / 2 ) {
-                this.selectedOption = 0;
-            }
+        InputListener input = pane.getInput();
+        if ( input.getMouseY() > pane.getHeight() / 2 ) {
+            this.selectedOption = 1;
+        } else if ( input.getMouseY() < pane.getHeight() / 2 ) {
+            this.selectedOption = 0;
         }
 
-        InputListener input = pane.getInput();
         if ( input.isLeftDown() && this.timeout <= 0 ) {
             switch( this.selectedOption ) {
                 case 0:

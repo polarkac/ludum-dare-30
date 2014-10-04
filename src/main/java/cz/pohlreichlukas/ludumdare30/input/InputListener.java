@@ -18,6 +18,7 @@ public class InputListener implements MouseListener, MouseMotionListener {
     private int mouseX;
     private int mouseY;
     private GamePane pane;
+    private Robot robot;
 
     public InputListener( GamePane pane ) {
         this.leftIsDown = false;
@@ -25,6 +26,11 @@ public class InputListener implements MouseListener, MouseMotionListener {
         this.lastMouseX = this.lastMouseY = 0;
         this.mouseX = this.mouseY = 0;
         this.pane = pane;
+        try {
+            this.robot = new Robot();
+        } catch ( AWTException e ) {
+            e.printStackTrace();
+        }
     }
 
     public void mousePressed( MouseEvent e ) {
@@ -57,15 +63,10 @@ public class InputListener implements MouseListener, MouseMotionListener {
     }
 
     public void mouseExited( MouseEvent e ) {
-        try {
-            Robot r = new Robot();
-            Point p = this.pane.getLocationOnScreen();
-            int panePosX = (int) p.getX();
-            int panePosY = (int) p.getY();
-            r.mouseMove( this.lastMouseX + panePosX, this.lastMouseY + panePosY );
-        } catch ( AWTException a ) {
-            a.printStackTrace();
-        }
+        Point p = this.pane.getLocationOnScreen();
+        int panePosX = (int) p.getX();
+        int panePosY = (int) p.getY();
+        this.robot.mouseMove( this.lastMouseX + panePosX, this.lastMouseY + panePosY );
     }
 
     public boolean isLeftDown() {

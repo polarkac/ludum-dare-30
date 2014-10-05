@@ -85,6 +85,8 @@ public class World {
         for ( Particle p : this.particles ) {
             p.render( g );
         }
+        
+        //this.renderQuadTree( this.bulletTree, g );
     }
 
     private void renderQuadTree( QuadTree t, Graphics2D g ) {
@@ -114,12 +116,17 @@ public class World {
             }
         }
 
-        this.asteroidTree.clear();
         for ( Asteroid a : new ArrayList<Asteroid>( this.asteroids ) ) {
-            this.asteroidTree.insert( a );
+            float x = a.getX();
+            float y = a.getY();
             a.update( this, pane, delta );
+            if ( x != a.getX() || y != a.getY() ) {
+                this.asteroidTree.remove( a );
+                this.asteroidTree.insert( a );
+            }
             if ( a.isDead() ) {
                 this.asteroids.remove( a );
+                this.asteroidTree.remove( a );
             }
         }
 
@@ -127,13 +134,18 @@ public class World {
             pane.newGame();
         }
 
-        this.bulletTree.clear();
         Rectangle bulletBox = new Rectangle( 0, 0, 0, 0 );
         for ( Bullet b : new ArrayList<Bullet>( this.bullets ) ) {
-            this.bulletTree.insert( b );
+            float x = b.getX();
+            float y = b.getY();
             b.update( this, pane, delta );
+            if ( x != b.getX() || y != b.getY() ) {
+                this.bulletTree.remove( b );
+                this.bulletTree.insert( b );
+            }
             if ( b.isDead() ) {
                 this.bullets.remove( b );
+                this.bulletTree.remove( b );
             }
             bulletBox.setBounds( b.getBoundingBox() );
             bulletBox.grow( 5, 5 );
@@ -149,12 +161,17 @@ public class World {
             }
         }
 
-        this.enemyShipTree.clear();
         for ( EnemyShip e : new ArrayList<EnemyShip>( this.enemyShips ) ) {
-            this.enemyShipTree.insert( e );
+            float x = e.getX();
+            float y = e.getY();
             e.update( this, pane, delta );
+            if ( x != e.getX() || y != e.getY() ) {
+                this.enemyShipTree.remove( e );
+                this.enemyShipTree.insert( e );
+            }
             if ( e.isDead() ) {
                 this.enemyShips.remove( e );
+                this.enemyShipTree.remove( e );
             }
         }
 

@@ -112,6 +112,34 @@ public class QuadTree<T extends Entity> {
         this.northWest = this.northEast = this.southWest = this.southEast = null;
     }
 
+    public boolean remove( T e ) {
+        boolean removed = this.entities.remove( e );
+        if ( !removed && this.northWest != null ) {
+            removed = this.northWest.remove( e );
+            if ( !removed ) {
+                removed = this.northEast.remove( e );
+                if ( !removed ) {
+                    removed = this.southWest.remove( e );
+                    if ( !removed ) {
+                        removed = this.southEast.remove( e );
+                    }
+                }
+            }
+        }
+
+        if ( this.northWest != null ) {
+            int size = this.northWest.entities.size() +
+                this.northEast.entities.size() +
+                this.southWest.entities.size() +
+                this.southEast.entities.size();
+            if ( size == 0 ) {
+                this.northWest = this.northEast = this.southWest = this.southEast = null;
+            }
+        }
+
+        return removed;
+    }
+
     public Rectangle getRegion() {
         return this.region;
     }

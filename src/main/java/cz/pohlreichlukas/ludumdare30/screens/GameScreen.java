@@ -31,6 +31,7 @@ public class GameScreen implements Screen {
 
     public void update( GamePane pane, long delta ) {
         pane.hideCursor();
+        pane.getInput().setLockMouse( true );
         this.world.update( pane, delta ); 
     }    
 

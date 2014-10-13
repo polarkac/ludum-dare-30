@@ -19,12 +19,14 @@ public class InputListener implements MouseListener, MouseMotionListener {
     private int mouseY;
     private GamePane pane;
     private Robot robot;
+    private boolean lockMouse;
 
     public InputListener( GamePane pane ) {
         this.leftIsDown = false;
         this.rightIsDown = false;
         this.lastMouseX = this.lastMouseY = 0;
         this.mouseX = this.mouseY = 0;
+        this.lockMouse = false;
         this.pane = pane;
         try {
             this.robot = new Robot();
@@ -99,7 +101,14 @@ public class InputListener implements MouseListener, MouseMotionListener {
         return this.lastMouseY;
     }
 
+    public void setLockMouse( boolean isLocked ) {
+        this.lockMouse = isLocked;
+    }
+
     private void moveMouseToCenter() {
+        if ( !this.lockMouse ) {
+            return;
+        }
         Point p = this.pane.getLocationOnScreen();
         int windowX = (int) p.getX();
         int windowY = (int) p.getY();

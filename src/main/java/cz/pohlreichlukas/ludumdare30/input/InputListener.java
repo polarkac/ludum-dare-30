@@ -8,8 +8,11 @@ import java.awt.AWTException;
 import java.awt.Point;
 
 import cz.pohlreichlukas.ludumdare30.GamePane;
+import cz.pohlreichlukas.ludumdare30.events.Subject;
+import cz.pohlreichlukas.ludumdare30.events.GuiObserver;
+import cz.pohlreichlukas.ludumdare30.events.GuiEvent;
 
-public class InputListener implements MouseListener, MouseMotionListener {
+public class InputListener extends Subject implements MouseListener, MouseMotionListener {
 
     private boolean leftIsDown;
     private boolean rightIsDown;
@@ -33,23 +36,28 @@ public class InputListener implements MouseListener, MouseMotionListener {
         } catch ( AWTException e ) {
             e.printStackTrace();
         }
+        this.addObserver( new GuiObserver( pane ) );
     }
 
     public void mousePressed( MouseEvent e ) {
-        if ( e.getButton() == MouseEvent.BUTTON1 ) {
-            this.leftIsDown = true;
-        }
-        if ( e.getButton() == MouseEvent.BUTTON2 ) {
-            this.rightIsDown = true;
-        }
+        this.toggleMouseButtons( e, true );
     }
 
     public void mouseReleased( MouseEvent e ) { 
+        this.toggleMouseButtons( e, false );
+    }
+
+    private void toggleMouseButtons( MouseEvent e, boolean isDown ) {
         if ( e.getButton() == MouseEvent.BUTTON1 ) {
-            this.leftIsDown = false;
+            this.leftIsDown = isDown;
+            if ( isDown ) {
+                this.notify( this, GuiEvent.MOUSE1_DOWN );
+            } else {
+                this.notify( this, GuiEvent.MOUSE1_UP );
+            }
         }
         if ( e.getButton() == MouseEvent.BUTTON2 ) {
-            this.rightIsDown = false;
+            this.rightIsDown = isDown;
         }
     }
 

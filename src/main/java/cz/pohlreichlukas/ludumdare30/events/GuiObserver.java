@@ -11,6 +11,6 @@ public class GuiObserver implements Observer {
     }
 
     public void onNotify( Subject subject, Event event ) {
-    
+
     }
 }

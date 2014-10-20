@@ -14,4 +14,10 @@ public class Subject {
     public void addObserver( Observer ob ) {
         this.observers.add( ob );
     }
+
+    public void notify( Subject subject, Event event ) {
+        for ( Observer o : this.observers ) {
+            o.onNotify( subject, event );
+        }
+    }
 }
